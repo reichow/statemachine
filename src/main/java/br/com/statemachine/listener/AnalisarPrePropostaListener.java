@@ -1,11 +1,7 @@
 package br.com.statemachine.listener;
 
-import br.com.statemachine.domain.Estados;
-import br.com.statemachine.domain.Eventos;
-import br.com.statemachine.annotation.EventTemplate;
-import br.com.statemachine.annotation.RabbitEnabled;
-import br.com.statemachine.messaging.Messaging;
-import br.com.statemachine.service.AnalisarPrePropostaService;
+import static br.com.statemachine.domain.Eventos.ANALISAR;
+
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -16,18 +12,22 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.stereotype.Component;
 
-import br.com.statemachine.response.ErrorResponse;
+import br.com.statemachine.annotation.EventTemplate;
+import br.com.statemachine.annotation.RabbitEnabled;
+import br.com.statemachine.domain.Estados;
+import br.com.statemachine.domain.Eventos;
 import br.com.statemachine.event.AnalisarPrePropostaEvent;
 import br.com.statemachine.message.AnalisarPrePropostaMessage;
+import br.com.statemachine.messaging.Messaging;
+import br.com.statemachine.response.ErrorResponse;
+import br.com.statemachine.service.AnalisarPrePropostaService;
 import lombok.extern.slf4j.Slf4j;
-
-import static br.com.statemachine.domain.Eventos.ANALISAR;
 
 @Component
 @RabbitEnabled
 @RabbitListener(queues = Messaging.QUEUE_ANALISAR_PRE_PROPOSTA)
 @Slf4j
-public class PreAnaliseListener {
+public class AnalisarPrePropostaListener {
 
     @Autowired
     private AnalisarPrePropostaService service;

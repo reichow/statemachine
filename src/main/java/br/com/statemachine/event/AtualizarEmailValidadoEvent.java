@@ -2,7 +2,7 @@ package br.com.statemachine.event;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import br.com.statemachine.message.AnalisarPrePropostaMessage;
+import br.com.statemachine.message.AtualizarEmailValidadoMessage;
 import br.com.statemachine.response.ErrorResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,11 +16,11 @@ import lombok.ToString;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ToString(of = "requisicao")
-public class AnalisarPrePropostaEvent implements SucessoErroEvent<AnalisarPrePropostaMessage, String> {
+public class AtualizarEmailValidadoEvent implements SucessoErroEvent<AtualizarEmailValidadoMessage, String> {
 
-    private static final long serialVersionUID = 1534990062660000468L;
+    private static final long serialVersionUID = 3762356017802315493L;
 
-    private final AnalisarPrePropostaMessage requisicao;
+    private final AtualizarEmailValidadoMessage requisicao;
 
     private final String resultado;
 

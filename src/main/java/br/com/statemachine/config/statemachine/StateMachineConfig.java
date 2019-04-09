@@ -1,7 +1,7 @@
 package br.com.statemachine.config.statemachine;
 
-import br.com.statemachine.domain.Estados;
-import br.com.statemachine.domain.Eventos;
+import java.util.EnumSet;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.config.EnableStateMachine;
 import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
@@ -9,7 +9,8 @@ import org.springframework.statemachine.config.builders.StateMachineConfiguratio
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 
-import java.util.EnumSet;
+import br.com.statemachine.domain.Estados;
+import br.com.statemachine.domain.Eventos;
 
 @Configuration
 @EnableStateMachine
@@ -18,6 +19,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<Estado
     @Override
     public void configure(StateMachineConfigurationConfigurer<Estados, Eventos> config) throws Exception {
         config.withConfiguration()
+                .listener(new TransitionConfig())
                 .autoStartup(true);
     }
 
@@ -43,8 +45,6 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<Estado
                         }
                 )
                 .and()
-
-
 
                 .withExternal()
                 .source(Estados.PROPOSTA_CRIADA)
