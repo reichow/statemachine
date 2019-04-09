@@ -1,3 +1,6 @@
+server:
+  port: 9090
+
 spring:
   application:
     name: proposta
@@ -6,7 +9,15 @@ spring:
     - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
   messages:
     basename: i18n/messages
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306
+    username: root
+    password: root
   rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
     enabled: ${RABBIT_ENABLED:true}
     listener:
       simple:
