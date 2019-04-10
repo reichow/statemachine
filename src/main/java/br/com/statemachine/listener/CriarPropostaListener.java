@@ -7,13 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.statemachine.StateMachine;
 import org.springframework.stereotype.Component;
 
 import br.com.statemachine.annotation.EventTemplate;
 import br.com.statemachine.annotation.RabbitEnabled;
+import br.com.statemachine.domain.Estados;
+import br.com.statemachine.domain.Eventos;
+import br.com.statemachine.entity.Proposta;
 import br.com.statemachine.event.CriarPropostaEvent;
 import br.com.statemachine.message.CriarPropostaMessage;
 import br.com.statemachine.messaging.Messaging;
+import br.com.statemachine.response.ErrorResponse;
+import br.com.statemachine.response.PropostaDTO;
+import br.com.statemachine.service.CriarPropostaService;
+import br.com.statemachine.service.SalvarAuditoriaService;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -22,18 +30,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CriarPropostaListener {
 
-//    @Autowired
-//    private StateMachine<Estados, Eventos> stateMachine;
-//
+    @Autowired
+    private StateMachine<Estados, Eventos> stateMachine;
+
     @Autowired
     @EventTemplate
     private RabbitTemplate rabbitTemplate;
-//
-//    @Autowired
-//    private CriarPropostaService criarPropostaService;
-//
-//    @Autowired
-//    private BuscarPropostaService buscarPropostaService;
+
+    @Autowired
+    private CriarPropostaService criarPropostaService;
+
+    @Autowired
+    private SalvarAuditoriaService salvarAuditoriaService;
 
     @RabbitHandler
     void receive(
@@ -45,26 +53,30 @@ public class CriarPropostaListener {
         final CriarPropostaEvent.CriarPropostaEventBuilder event = CriarPropostaEvent.builder().requisicao(message);
 
         try {
+            log.info("Inicia envio do evento INICIAR. Estado: {}", stateMachine.getState().getId());
+            stateMachine.sendEvent(Eventos.INICIAR);
+            log.info("Finaliza envio do evento INICIAR. Estado: {}", stateMachine.getState().getId());
 
-//            criarPropostaService.executar(message.getCpf());
+            Proposta propostaSalva = criarPropostaService.executar(message.getCpf());
 
-//            Proposta proposta = buscarPropostaService.buscarPorNumeroProposta("numeroProposta");
-//            PropostaDTO propostaDTO = PropostaDTO.builder().build();
-//            event.resultado(propostaDTO);
-//
-//            log.info("Inicia envio do evento INICIAR. Estado: {}", stateMachine.getState().getId());
-//            stateMachine.sendEvent(Eventos.INICIAR);
-//            log.info("Finaliza envio do evento INICIAR. Estado: {}", stateMachine.getState().getId());
-//
-//            log.info("Propagando evento: {}", event);
-//            rabbitTemplate.convertAndSend(Messaging.PROPOSTA_CRIADA.getRoutingKey(), event.build());
+            salvarAuditoriaService.executar();
+
+            PropostaDTO propostaDTO = PropostaDTO.builder()
+                .estado(propostaSalva.getEstado())
+                .numero(propostaSalva.getNumero())
+                .cpf(propostaSalva.getCpf()).build();
+
+            event.resultado(propostaDTO);
+
+            log.info("Propagando evento: {}", event);
+            rabbitTemplate.convertAndSend(Messaging.PROPOSTA_CRIADA.getRoutingKey(), event.build());
 
         } catch (final Exception e) {
 
-//            event.erro(ErrorResponse.build(e));
-//
-//            log.error("Propagando evento de erro: " + event);
-//            rabbitTemplate.convertAndSend(Messaging.PROPOSTA_CRIADA_ERROR.getRoutingKey(), event.build());
+            event.erro(ErrorResponse.build(e));
+
+            log.error("Propagando evento de erro: " + event);
+            rabbitTemplate.convertAndSend(Messaging.PROPOSTA_CRIADA_ERROR.getRoutingKey(), event.build());
             throw e;
         }
     }

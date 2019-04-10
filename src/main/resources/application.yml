@@ -2,6 +2,9 @@ server:
   port: 9090
 
 spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
   application:
     name: proposta
   autoconfigure:
@@ -10,7 +13,7 @@ spring:
   messages:
     basename: i18n/messages
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306
+    url: jdbc:mysql://127.0.0.1:3306/sys
     username: root
     password: mysql
   rabbitmq:

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import br.com.statemachine.domain.Estados;
 import br.com.statemachine.domain.Eventos;
 import br.com.statemachine.entity.Proposta;
+import br.com.statemachine.repository.PropostaRepository;
 
 @Service
 public class CriarPropostaService {
@@ -14,18 +15,25 @@ public class CriarPropostaService {
     @Autowired
     private StateMachine<Estados, Eventos> stateMachine;
 
-//    @Autowired
-//    private PropostaRepository repository;
+    @Autowired
+    private PropostaRepository repository;
 
-    public void executar(String cpf) {
+    public Proposta executar(String cpf) {
 
-        String numeroProposta = "numeroProposta";
+        Proposta ultimaProposta = repository.findTopByOrderByNumeroDesc().orElse(Proposta.builder().numero(0L).build());
 
-        Proposta proposta = new Proposta();
-//            Proposta.builder().estado(stateMachine.getState().getId().name()).prop(numeroProposta).prop2(numeroProposta).build();
+        Proposta proposta = Proposta.builder()
+            .estado(stateMachine.getState().getId().name())
+            .numero(ultimaProposta.getNumero() + 1)
+            .cpf(cpf).build();
 
-//        repository.save(proposta);
+        Proposta propostaSalva = repository.save(proposta);
 
-        stateMachine.getExtendedState().getVariables().put("numeroProposta", String.class);
+        Long numeroProposta = propostaSalva.getNumero();
+
+        stateMachine.getExtendedState().getVariables().put("cpf", cpf);
+        stateMachine.getExtendedState().getVariables().put("numeroProposta", numeroProposta);
+
+        return propostaSalva;
     }
 }

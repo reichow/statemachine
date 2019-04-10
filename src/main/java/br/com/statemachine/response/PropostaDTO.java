@@ -18,8 +18,7 @@ public class PropostaDTO implements Serializable {
 
     private final String estado;
 
-    private final String prop1;
+    private final Long numero;
 
-    private final String prop2;
-
+    private final String cpf;
 }

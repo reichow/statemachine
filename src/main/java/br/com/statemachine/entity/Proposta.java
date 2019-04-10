@@ -7,8 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
@@ -16,6 +19,9 @@ import lombok.Setter;
 @EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "PROPOSTA")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Proposta {
 
     private static final String SEQUENCE = "PROPOSTA_SEQ";
@@ -28,9 +34,10 @@ public class Proposta {
     @Column(name = "ESTADO")
     private String estado;
 
-    @Column(name = "PROP1")
-    private String prop1;
+    @Column(name = "NUMERO")
+    private Long numero;
 
-    @Column(name = "PROP2")
-    private String prop2;
+    @Column(name = "CPF")
+    private String cpf;
 }
+
