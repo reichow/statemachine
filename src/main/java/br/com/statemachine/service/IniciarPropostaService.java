@@ -24,13 +24,16 @@ public class IniciarPropostaService {
     @EventTemplate
     private RabbitTemplate eventTemplate;
 
+    @Autowired
+    private CustomStateMachineInterceptor interceptor;
+
     public void executar(String cpf) {
 
         stateMachine.start();
         stateMachine.getExtendedState().getVariables().put("cpf", cpf);
 
         stateMachine.getStateMachineAccessor()
-            .doWithRegion(access -> access.addStateMachineInterceptor(new CustomStateMachineInterceptor()));
+            .doWithRegion(access -> access.addStateMachineInterceptor(interceptor));
 
         CriarPropostaMessage novaProposta = CriarPropostaMessage.builder().cpf(cpf).build();
 

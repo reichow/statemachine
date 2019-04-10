@@ -10,14 +10,10 @@ import org.springframework.stereotype.Component;
 import br.com.statemachine.domain.Estados;
 import br.com.statemachine.domain.Eventos;
 import br.com.statemachine.entity.StateMachineEntity;
-import br.com.statemachine.repository.PropostaRepository;
 import br.com.statemachine.repository.StateMachineRepository;
 
 @Component
 public class CustomStateMachinePersist implements StateMachinePersist<Estados, Eventos, String> {
-
-    @Autowired
-    private PropostaRepository propostaRepository;
 
     @Autowired
     private StateMachineRepository stateMachineRepository;
