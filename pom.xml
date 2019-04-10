@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.5.19.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>br.com.statemachine</groupId>
     <artifactId>statemachine</artifactId>
@@ -58,6 +58,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
@@ -111,27 +112,8 @@
 
         <dependency>
             <groupId>org.springframework.statemachine</groupId>
-            <artifactId>spring-statemachine-starter</artifactId>
-            <version>2.0.0.RELEASE</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-actuator-autoconfigure</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.statemachine</groupId>
             <artifactId>spring-statemachine-data-jpa</artifactId>
             <version>${spring.statemachine.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-orm</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
-
     </dependencies>
 </project>

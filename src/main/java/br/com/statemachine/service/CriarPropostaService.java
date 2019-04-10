@@ -33,6 +33,7 @@ public class CriarPropostaService {
 
         stateMachine.getExtendedState().getVariables().put("cpf", cpf);
         stateMachine.getExtendedState().getVariables().put("numeroProposta", numeroProposta);
+        stateMachine.getExtendedState().getVariables().put("proposta", propostaSalva);
 
         return propostaSalva;
     }

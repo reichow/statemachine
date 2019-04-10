@@ -11,6 +11,7 @@ import br.com.statemachine.domain.Estados;
 import br.com.statemachine.domain.Eventos;
 import br.com.statemachine.message.CriarPropostaMessage;
 import br.com.statemachine.messaging.Messaging;
+import br.com.statemachine.persistency.CustomStateMachineInterceptor;
 
 @Service
 @EnableRabbit
@@ -27,6 +28,9 @@ public class IniciarPropostaService {
 
         stateMachine.start();
         stateMachine.getExtendedState().getVariables().put("cpf", cpf);
+
+        stateMachine.getStateMachineAccessor()
+            .doWithRegion(access -> access.addStateMachineInterceptor(new CustomStateMachineInterceptor()));
 
         CriarPropostaMessage novaProposta = CriarPropostaMessage.builder().cpf(cpf).build();
 

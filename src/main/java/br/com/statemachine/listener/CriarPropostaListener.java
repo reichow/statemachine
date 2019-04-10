@@ -18,17 +18,16 @@ import br.com.statemachine.entity.Proposta;
 import br.com.statemachine.event.CriarPropostaEvent;
 import br.com.statemachine.message.CriarPropostaMessage;
 import br.com.statemachine.messaging.Messaging;
+import br.com.statemachine.persistency.AbstractStateMachineContextBuilder;
 import br.com.statemachine.response.ErrorResponse;
 import br.com.statemachine.response.PropostaDTO;
-import br.com.statemachine.service.CriarPropostaService;
-import br.com.statemachine.service.SalvarAuditoriaService;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
 @RabbitEnabled
 @RabbitListener(queues = Messaging.QUEUE_CRIAR_PROPOSTA)
 @Slf4j
-public class CriarPropostaListener {
+public class CriarPropostaListener extends AbstractStateMachineContextBuilder<Estados, Eventos> {
 
     @Autowired
     private StateMachine<Estados, Eventos> stateMachine;
@@ -36,12 +35,6 @@ public class CriarPropostaListener {
     @Autowired
     @EventTemplate
     private RabbitTemplate rabbitTemplate;
-
-    @Autowired
-    private CriarPropostaService criarPropostaService;
-
-    @Autowired
-    private SalvarAuditoriaService salvarAuditoriaService;
 
     @RabbitHandler
     void receive(
@@ -57,9 +50,9 @@ public class CriarPropostaListener {
             stateMachine.sendEvent(Eventos.INICIAR);
             log.info("Finaliza envio do evento INICIAR. Estado: {}", stateMachine.getState().getId());
 
-            Proposta propostaSalva = criarPropostaService.executar(message.getCpf());
+//            Proposta propostaSalva = criarPropostaService.executar(message.getCpf());
 
-            salvarAuditoriaService.executar();
+            Proposta propostaSalva = stateMachine.getExtendedState().get("proposta", Proposta.class);
 
             PropostaDTO propostaDTO = PropostaDTO.builder()
                 .estado(propostaSalva.getEstado())

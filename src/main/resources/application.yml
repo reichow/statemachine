@@ -3,6 +3,7 @@ server:
 
 spring:
   jpa:
+    database: MYSQL
     hibernate:
       ddl-auto: create
   application:
@@ -13,6 +14,7 @@ spring:
   messages:
     basename: i18n/messages
   datasource:
+    driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/sys
     username: root
     password: mysql

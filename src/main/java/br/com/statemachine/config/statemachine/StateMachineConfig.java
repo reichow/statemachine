@@ -2,6 +2,7 @@ package br.com.statemachine.config.statemachine;
 
 import java.util.EnumSet;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.config.EnableStateMachine;
 import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
@@ -11,16 +12,19 @@ import org.springframework.statemachine.config.builders.StateMachineTransitionCo
 
 import br.com.statemachine.domain.Estados;
 import br.com.statemachine.domain.Eventos;
+import br.com.statemachine.service.CriarPropostaService;
 
 @Configuration
 @EnableStateMachine
 public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<Estados, Eventos> {
 
+    @Autowired
+    private CriarPropostaService criarPropostaService;
+
     @Override
     public void configure(StateMachineConfigurationConfigurer<Estados, Eventos> config) throws Exception {
         config.withConfiguration()
-                .listener(new TransitionConfig())
-                .autoStartup(true);
+                .listener(new TransitionConfig());
     }
 
     @Override
@@ -41,7 +45,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<Estado
                 .event(Eventos.INICIAR)
                 .action(
                         context -> {
-
+                            criarPropostaService.executar(context.getExtendedState().get("cpf", String.class));
                         }
                 )
                 .and()
