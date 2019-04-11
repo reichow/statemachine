@@ -1,13 +1,14 @@
 package br.com.statemachine.config;
 
-import br.com.statemachine.annotation.RabbitEnabled;
-import br.com.statemachine.messaging.Messaging;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import br.com.statemachine.annotation.RabbitEnabled;
+import br.com.statemachine.messaging.Messaging;
 
 @Configuration
 @RabbitEnabled
@@ -69,6 +70,6 @@ public class MessagingConfiguration {
     Binding analisarPropostaQueueToPropostaExchangeBinder() {
         return BindingBuilder.bind(analisarPropostaQueue())
             .to(propostaExchange())
-            .with(Messaging.ANALISAR_PROPOSTA.getRoutingKey());
+            .with(Messaging.ANALISAR_PRE_PROPOSTA.getRoutingKey());
     }
 }

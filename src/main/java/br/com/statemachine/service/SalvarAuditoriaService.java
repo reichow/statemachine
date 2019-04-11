@@ -15,12 +15,14 @@ import lombok.extern.slf4j.Slf4j;
 public class SalvarAuditoriaService {
 
     @Autowired
-    private StateMachine<Estados, Eventos> stateMachine;
+    private CustomStateMachineService customStateMachineService;
 
     @Autowired
     private AuditoriaRepository repository;
 
-    public void executar() {
+    public void executar(Long numeroProposta) {
+
+        StateMachine<Estados, Eventos> stateMachine = customStateMachineService.getStateMachine(numeroProposta.toString());
 
         Auditoria auditoria = Auditoria.builder()
             .cpf(stateMachine.getExtendedState().get("cpf", String.class))

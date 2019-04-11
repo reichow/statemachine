@@ -1,4 +1,4 @@
-package br.com.statemachine.persistency;
+package br.com.statemachine.statemachine;
 
 import java.util.ArrayList;
 import java.util.Collection;

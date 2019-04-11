@@ -2,10 +2,6 @@ server:
   port: 9090
 
 spring:
-  jpa:
-    database: MYSQL
-    hibernate:
-      ddl-auto: create
   application:
     name: proposta
   autoconfigure:
@@ -19,10 +15,6 @@ spring:
     username: root
     password: mysql
   rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
     enabled: ${RABBIT_ENABLED:true}
     listener:
       simple:

@@ -1,4 +1,4 @@
-package br.com.statemachine.persistency;
+package br.com.statemachine.statemachine;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
@@ -46,11 +46,11 @@ public class CustomStateMachineInterceptor extends AbstractStateMachineContextBu
                 //TODO verificar se existe a proposta salva antes;
 
                 log.info("Iniciada persistência da SM.");
-                final String id = stateMachine.getExtendedState().get("numeroProposta", Long.class).toString();
-                persist.write(buildStateMachineContext(stateMachine), id);
+                final Long id = stateMachine.getExtendedState().get("numeroProposta", Long.class);
+                persist.write(buildStateMachineContext(stateMachine), id.toString());
                 log.info("Finalizada persistência da SM.");
 
-                salvarAuditoriaService.executar();
+                salvarAuditoriaService.executar(id);
 
             } catch (Exception e) {
                 throw new StateMachineException("Não foi possível persistir o contexto da SM.", e);

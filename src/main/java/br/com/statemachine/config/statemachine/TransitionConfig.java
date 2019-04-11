@@ -10,7 +10,6 @@ import br.com.statemachine.domain.Eventos;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-//@WithStateMachine
 public class TransitionConfig extends StateMachineListenerAdapter<Estados, Eventos> {
 
     @Override

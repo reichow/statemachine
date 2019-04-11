@@ -20,4 +20,6 @@ public class AnalisarPrePropostaMessage implements Serializable {
 
     private String cpf;
 
+    private Long numeroProposta;
+
 }

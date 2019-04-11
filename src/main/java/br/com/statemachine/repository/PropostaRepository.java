@@ -18,4 +18,6 @@ public interface PropostaRepository extends Repository<Proposta, Long> {
 //    Proposta findByProp1(String prop1);
 
     Optional<Proposta> findTopByOrderByNumeroDesc();
+
+    Optional<Proposta> findByNumero(Long numero);
 }

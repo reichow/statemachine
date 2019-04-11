@@ -8,14 +8,15 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import br.com.statemachine.annotation.RabbitEnabled;
-import br.com.statemachine.interceptor.HeaderMessageInterceptor;
-import br.com.statemachine.interceptor.ListenerExceptionInterceptor;
-import br.com.statemachine.interceptor.TraceMessageInterceptor;
 import org.aopalliance.aop.Advice;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+
+import br.com.statemachine.annotation.RabbitEnabled;
+import br.com.statemachine.interceptor.HeaderMessageInterceptor;
+import br.com.statemachine.interceptor.ListenerExceptionInterceptor;
+import br.com.statemachine.interceptor.TraceMessageInterceptor;
 
 @Configuration
 @RabbitEnabled

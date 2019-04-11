@@ -6,11 +6,6 @@ import static java.util.Objects.nonNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.com.statemachine.annotation.EventTemplate;
-import br.com.statemachine.interceptor.HeaderMessageInterceptor;
-import br.com.statemachine.interceptor.TraceMessageInterceptor;
-import br.com.statemachine.messaging.MessageOutbox;
-import br.com.statemachine.messaging.Messaging;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.DefaultClassMapper;
@@ -21,13 +16,19 @@ import org.springframework.context.annotation.Configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.com.statemachine.annotation.EventTemplate;
+import br.com.statemachine.annotation.RabbitEnabled;
 import br.com.statemachine.event.AnalisarPrePropostaEvent;
 import br.com.statemachine.event.CriarPropostaEvent;
+import br.com.statemachine.interceptor.HeaderMessageInterceptor;
+import br.com.statemachine.interceptor.TraceMessageInterceptor;
 import br.com.statemachine.message.AnalisarPrePropostaMessage;
 import br.com.statemachine.message.CriarPropostaMessage;
+import br.com.statemachine.messaging.MessageOutbox;
+import br.com.statemachine.messaging.Messaging;
 
 @Configuration
-//@RabbitEnabled
+@RabbitEnabled
 public class RabbitTemplateConfiguration {
 
     @Autowired

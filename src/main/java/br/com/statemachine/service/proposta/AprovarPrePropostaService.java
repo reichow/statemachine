@@ -1,4 +1,4 @@
-package br.com.statemachine.service;
+package br.com.statemachine.service.proposta;
 
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -9,7 +9,7 @@ import br.com.statemachine.annotation.EventTemplate;
 
 @Service
 @EnableRabbit
-public class NegarPrePropostaService {
+public class AprovarPrePropostaService {
 
     @Autowired
     @EventTemplate

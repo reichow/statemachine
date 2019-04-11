@@ -1,7 +1,5 @@
 package br.com.statemachine.listener;
 
-import static br.com.statemachine.domain.Eventos.ANALISAR;
-
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -10,6 +8,7 @@ import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.statemachine.StateMachine;
+import org.springframework.statemachine.config.StateMachineFactory;
 import org.springframework.stereotype.Component;
 
 import br.com.statemachine.annotation.EventTemplate;
@@ -20,7 +19,8 @@ import br.com.statemachine.event.AnalisarPrePropostaEvent;
 import br.com.statemachine.message.AnalisarPrePropostaMessage;
 import br.com.statemachine.messaging.Messaging;
 import br.com.statemachine.response.ErrorResponse;
-import br.com.statemachine.service.AnalisarPrePropostaService;
+import br.com.statemachine.service.CustomStateMachineService;
+import br.com.statemachine.service.proposta.AnalisarPrePropostaService;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -30,6 +30,9 @@ import lombok.extern.slf4j.Slf4j;
 public class AnalisarPrePropostaListener {
 
     @Autowired
+    private CustomStateMachineService customStateMachineService;
+
+    @Autowired
     private AnalisarPrePropostaService service;
 
     @Autowired
@@ -37,37 +40,41 @@ public class AnalisarPrePropostaListener {
     private RabbitTemplate rabbitTemplate;
 
     @Autowired
-    private StateMachine<Estados, Eventos> stateMachine;
+    private StateMachineFactory<Estados, Eventos> factory;
 
     @RabbitHandler
     void receive(
         @Payload final AnalisarPrePropostaMessage message,
         @Headers final MessageHeaders headers) throws Exception {
 
-        Estados estado = stateMachine.getState().getId();
-
-        stateMachine.sendEvent(ANALISAR);
-
-        estado = stateMachine.getState().getId();
         log.info("Mensagem: {}", message);
+
+        customStateMachineService.sendEvent(message.getNumeroProposta(), Eventos.ANALISAR);
 
         final AnalisarPrePropostaEvent.AnalisarPrePropostaEventBuilder event = AnalisarPrePropostaEvent.builder()
             .requisicao(message);
 
         try {
 
-//            final Boolean response = service.executar();
+            StateMachine<Estados, Eventos> stateMachine = customStateMachineService.getStateMachine(message.getNumeroProposta().toString());
 
-//            event.resultado(response);
+            event.resultado(stateMachine.getExtendedState().get("response", Estados.class));
 
             log.info("Propagando evento: {}", event);
 
-//            if (response) {
-//                rabbitTemplate.convertAndSend(Messaging.ANALISE_APROVADA.getRoutingKey(), event.build());
-//            } else {
-//                rabbitTemplate.convertAndSend(Messaging.ANALISE_NEGADA.getRoutingKey(), event.build());
-//            }
+            rabbitTemplate.convertAndSend(Messaging.PRE_PROPOSTA_ANALISADA.getRoutingKey(), event.build());
 
+            if (stateMachine.getExtendedState().get("response", Estados.class).equals(Estados.NEGADO_PRE)) {
+                log.info("");
+                customStateMachineService.sendEvent(stateMachine.getExtendedState().get("numeroProposta", Long.class), Eventos.NEGAR);
+                log.info("");
+            }
+
+            if (stateMachine.getExtendedState().get("response", Estados.class).equals(Estados.APROVADO_PRE)) {
+                log.info("");
+                customStateMachineService.sendEvent(stateMachine.getExtendedState().get("numeroProposta", Long.class), Eventos.APROVAR);
+                log.info("");
+            }
 
         } catch (final Exception e) {
 
