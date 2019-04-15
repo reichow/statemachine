@@ -4,20 +4,22 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import br.com.camila.statemachine.entity.Proposta;
-import br.com.camila.statemachine.message.CriarPropostaMessage;
-import br.com.camila.statemachine.response.ErrorResponse;
-import br.com.camila.statemachine.statemachine.AbstractStateMachineContextBuilder;
 import br.com.camila.statemachine.annotation.EventTemplate;
 import br.com.camila.statemachine.domain.Estados;
 import br.com.camila.statemachine.domain.Eventos;
+import br.com.camila.statemachine.entity.Proposta;
 import br.com.camila.statemachine.event.CriarPropostaEvent;
+import br.com.camila.statemachine.message.CriarPropostaMessage;
 import br.com.camila.statemachine.messaging.Messaging;
+import br.com.camila.statemachine.response.ErrorResponse;
 import br.com.camila.statemachine.response.PropostaDTO;
 import br.com.camila.statemachine.service.CriarPropostaService;
+import br.com.camila.statemachine.statemachine.AbstractStateMachineContextBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -33,7 +35,7 @@ public class CriarPropostaListener extends AbstractStateMachineContextBuilder<Es
     private CriarPropostaService criarPropostaService;
 
     @RabbitHandler
-    void receive(@Payload final CriarPropostaMessage message) {
+    void receive(@Payload final CriarPropostaMessage message, @Headers final MessageHeaders headers) {
 
         log.info("Mensagem: {}", message);
 
@@ -53,14 +55,14 @@ public class CriarPropostaListener extends AbstractStateMachineContextBuilder<Es
             event.resultado(propostaDTO);
 
             log.info("Propagando evento: {}", event);
-//            rabbitTemplate.convertAndSend(Messaging.PROPOSTA_CRIADA.getRoutingKey(), event.build());
+            rabbitTemplate.convertAndSend(Messaging.PROPOSTA_CRIADA.getRoutingKey(), event.build());
 
         } catch (final Exception e) {
 
             event.erro(ErrorResponse.build(e));
 
             log.error("Propagando evento de erro: " + event);
-//            rabbitTemplate.convertAndSend(Messaging.PROPOSTA_CRIADA_ERROR.getRoutingKey(), event.build());
+            rabbitTemplate.convertAndSend(Messaging.PROPOSTA_CRIADA_ERROR.getRoutingKey(), event.build());
             throw e;
         }
     }

@@ -35,7 +35,7 @@ public class MessagingConfiguration {
 
     @Bean
     TopicExchange eventsExchangeProcessadora() {
-        return new TopicExchange(Messaging.EXCHANGE_EVENTS_PROCESSADORA);
+        return new TopicExchange(Messaging.EXCHANGE_PROCESSADORA);
     }
 
     /**
@@ -115,5 +115,12 @@ public class MessagingConfiguration {
         return BindingBuilder.bind(analisarPrePropostaQueue())
             .to(propostaExchange())
             .with(Messaging.ANALISAR_PRE_PROPOSTA.getRoutingKey());
+    }
+
+    @Bean
+    Binding prePropostaAnalisadaQueueToPropostaExchangeBinder() {
+        return BindingBuilder.bind(prePropostaAnalisadaQueue())
+            .to(propostaExchange())
+            .with(Messaging.PRE_PROPOSTA_ANALISADA_MOTOR2.getRoutingKey());
     }
 }

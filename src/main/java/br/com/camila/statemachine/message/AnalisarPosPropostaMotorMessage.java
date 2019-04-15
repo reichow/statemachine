@@ -14,13 +14,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @EqualsAndHashCode
 @Getter
-@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AnalisarPrePropostaMessage implements Serializable {
+@NoArgsConstructor
+public class AnalisarPosPropostaMotorMessage implements Serializable {
 
-    private static final long serialVersionUID = -7703379227520366635L;
+    private static final long serialVersionUID = 521862762366774509L;
 
     private String cpf;
 
     private Long numeroProposta;
+
 }

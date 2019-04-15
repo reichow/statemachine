@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.camila.statemachine.message.CriarPropostaMessage;
 import br.com.camila.statemachine.annotation.EventTemplate;
 import br.com.camila.statemachine.annotation.RabbitEnabled;
 import br.com.camila.statemachine.event.AnalisarPrePropostaEvent;
@@ -24,6 +23,9 @@ import br.com.camila.statemachine.event.CriarPropostaEvent;
 import br.com.camila.statemachine.interceptor.HeaderMessageInterceptor;
 import br.com.camila.statemachine.interceptor.TraceMessageInterceptor;
 import br.com.camila.statemachine.message.AnalisarPrePropostaMessage;
+import br.com.camila.statemachine.message.AnalisarPrePropostaMotorMessage;
+import br.com.camila.statemachine.message.CriarPropostaMessage;
+import br.com.camila.statemachine.message.PrePropostaAnalisadaMessage;
 import br.com.camila.statemachine.messaging.MessageOutbox;
 import br.com.camila.statemachine.messaging.Messaging;
 
@@ -58,7 +60,9 @@ public class RabbitTemplateConfiguration {
         asList(CriarPropostaMessage.class,
             AnalisarPrePropostaMessage.class,
             CriarPropostaEvent.class,
-            AnalisarPrePropostaEvent.class)
+            AnalisarPrePropostaEvent.class,
+            PrePropostaAnalisadaMessage.class,
+            AnalisarPrePropostaMotorMessage.class)
             .forEach(clazz -> mapping.put(clazz.getSimpleName(), clazz));
 
         final DefaultClassMapper classMapper = new DefaultClassMapper();

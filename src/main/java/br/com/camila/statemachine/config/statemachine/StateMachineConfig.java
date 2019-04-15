@@ -36,11 +36,6 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<Estado
     @Autowired
     private AnalisarPosPropostaService analisarPosPropostaService;
 
-//    @Override
-//    public void configure(StateMachineConfigurationConfigurer<Estados, Eventos> config) throws Exception {
-//        config.withConfiguration();
-//    }
-
     @Override
     public void configure(StateMachineStateConfigurer<Estados, Eventos> states) throws Exception {
 
@@ -66,7 +61,9 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<Estado
             .event(Eventos.ANALISAR)
             .action(
                 context -> {
-                    analisarPrePropostaService.executar();
+                    analisarPrePropostaService.executar(
+                        context.getExtendedState().get("numeroProposta", Long.class),
+                        context.getExtendedState().get("cpf", String.class));
                 }
             )
 
@@ -75,27 +72,18 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<Estado
             .source(Estados.ANALISE_PRE)
             .target(Estados.APROVADO_PRE)
             .event(Eventos.APROVAR)
-            .action(
-                context -> atualizarPropostaService.executar(context.getExtendedState().get("numeroProposta", Long.class), context.getTarget().getId())
-            )
 
             .and()
             .withExternal()
             .source(Estados.ANALISE_PRE)
             .target(Estados.NEGADO_PRE)
             .event(Eventos.NEGAR)
-            .action(
-                context -> atualizarPropostaService.executar(context.getExtendedState().get("numeroProposta", Long.class), context.getTarget().getId())
-            )
 
             .and()
             .withExternal()
             .source(Estados.APROVADO_PRE)
             .target(Estados.INFOS_PESSOAIS)
             .event(Eventos.ATUALIZAR)
-            .action(
-                context -> atualizarInfosPessoaisService.executar()
-            )
 
             .and()
             .withExternal()
@@ -124,17 +112,11 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<Estado
             .source(Estados.ANALISE_POS)
             .target(Estados.NEGADO_POS)
             .event(Eventos.NEGAR)
-            .action(
-                context -> atualizarPropostaService.executar(context.getExtendedState().get("numeroProposta", Long.class), context.getTarget().getId())
-            )
 
             .and()
             .withExternal()
             .source(Estados.ANALISE_POS)
             .target(Estados.APROVADO_POS)
-            .action(
-                context -> atualizarPropostaService.executar(context.getExtendedState().get("numeroProposta", Long.class), context.getTarget().getId())
-            )
             .event(Eventos.APROVAR);
     }
 }

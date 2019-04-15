@@ -20,4 +20,8 @@ public class AnalisarPrePropostaMotorMessage implements Serializable {
 
     private static final long serialVersionUID = -923292212925646313L;
 
+    private String cpf;
+
+    private Long numeroProposta;
+
 }

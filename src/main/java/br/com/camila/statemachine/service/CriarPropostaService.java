@@ -23,12 +23,12 @@ public class CriarPropostaService {
 
         Long numeroProposta = gerarNumeroProposta();
 
+        iniciarMaquinaDeEstados(numeroProposta, cpf);
+
         Proposta proposta = Proposta.builder()
             .estado(customStateMachineService.getState(numeroProposta))
             .numero(numeroProposta)
             .cpf(cpf).build();
-
-        iniciarMaquinaDeEstados(proposta);
 
         return repository.save(proposta);
     }
@@ -39,16 +39,16 @@ public class CriarPropostaService {
         return ultimaProposta.getNumero() + 1L;
     }
 
-    private void iniciarMaquinaDeEstados(Proposta proposta) {
+    private void iniciarMaquinaDeEstados(Long numeroProposta, String cpf) {
 
-        customStateMachineService.start(proposta.getNumero());
+        customStateMachineService.start(numeroProposta);
 
         Map<String, Object> map = new HashMap<>();
-        map.put("cpf", proposta.getCpf());
-        map.put("numeroProposta", proposta.getNumero());
+        map.put("cpf", cpf);
+        map.put("numeroProposta", numeroProposta);
 
-        customStateMachineService.setVariables(proposta.getNumero(), map);
+        customStateMachineService.setVariables(numeroProposta, map);
 
-        customStateMachineService.sendEvent(proposta.getNumero(), Eventos.INICIAR);
+        customStateMachineService.sendEvent(numeroProposta, Eventos.INICIAR);
     }
 }

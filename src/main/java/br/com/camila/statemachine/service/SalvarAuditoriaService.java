@@ -31,9 +31,9 @@ public class SalvarAuditoriaService {
             .numeroProposta(stateMachine.getExtendedState().get("numeroProposta", Long.class))
             .estado(stateMachine.getState().getId().name()).build();
 
-        log.info("Inicia auditoria para: [{}]", stateMachine.getState().getId().name(), stateMachine.getExtendedState().get("numeroProposta", Long.class));
+        log.info("Inicia auditoria para: {} com número: {}", stateMachine.getState().getId().name(), stateMachine.getExtendedState().get("numeroProposta", Long.class));
         repository.save(auditoria);
-        log.info("Finaliza auditoria para: [{}]", stateMachine.getState().getId().name(), stateMachine.getExtendedState().get("numeroProposta", Long.class));
+        log.info("Finaliza auditoria para: {} com número: {}", stateMachine.getState().getId().name(), stateMachine.getExtendedState().get("numeroProposta", Long.class));
 
 
     }

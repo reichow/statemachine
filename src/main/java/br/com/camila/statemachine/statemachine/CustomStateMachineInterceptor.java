@@ -12,12 +12,16 @@ import org.springframework.stereotype.Component;
 
 import br.com.camila.statemachine.domain.Eventos;
 import br.com.camila.statemachine.domain.Estados;
+import br.com.camila.statemachine.service.AtualizarPropostaService;
 import br.com.camila.statemachine.service.SalvarAuditoriaService;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
 public class CustomStateMachineInterceptor extends AbstractStateMachineContextBuilder<Estados, Eventos> implements StateMachineInterceptor<Estados, Eventos> {
+
+    @Autowired
+    private AtualizarPropostaService atualizarPropostaService;
 
     @Autowired
     private CustomStateMachinePersist persist;
@@ -43,14 +47,18 @@ public class CustomStateMachineInterceptor extends AbstractStateMachineContextBu
         if (state != null && transition != null) {
             try {
 
-                //TODO verificar se existe a proposta salva antes;
+                Long numeroProposta = stateMachine.getExtendedState().get("numeroProposta", Long.class);
+                Estados estado = stateMachine.getState().getId();
 
-                log.info("Iniciada persistência da SM.");
-                final Long id = stateMachine.getExtendedState().get("numeroProposta", Long.class);
-                persist.write(buildStateMachineContext(stateMachine), id.toString());
-                log.info("Finalizada persistência da SM.");
+                log.info("Iniciada atualização da proposta de número: {}", numeroProposta);
+                atualizarPropostaService.executar(numeroProposta, estado);
+                log.info("Finalizada atualização da proposta de número: {}", numeroProposta);
 
-                salvarAuditoriaService.executar(id);
+                log.info("Iniciada persistência da SM com numero de proposta: {}", numeroProposta);
+                persist.write(buildStateMachineContext(stateMachine), numeroProposta.toString());
+                log.info("Finalizada persistência da SM com numero de proposta: {}", numeroProposta);
+
+                salvarAuditoriaService.executar(numeroProposta);
 
             } catch (Exception e) {
                 throw new StateMachineException("Não foi possível persistir o contexto da SM.", e);

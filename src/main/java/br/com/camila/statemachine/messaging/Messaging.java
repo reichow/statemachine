@@ -24,6 +24,8 @@ public interface Messaging {
     MessageInbox ATUALIZAR_EMAIL_VALIDADO = new MessageInbox("proposta.atualizar-email-validado.message");
     MessageInbox ANALISAR_POS_PROPOSTA = new MessageInbox("proposta.analisar-pos-proposta.message");
 
+    MessageInbox PRE_PROPOSTA_ANALISADA_MOTOR2 = new MessageInbox("proposta.pre-proposta-analisada.message");
+
     // mensagens que são enviadas para outras aplicações
     MessageOutbox GFE = new MessageOutbox("gfe.armazenar-mensagem-gfe.message");
     MessageOutbox ANALISAR_PRE_PROPOSTA_MOTOR = new MessageOutbox("motor.analisar-pre-proposta-motor.message");
@@ -32,8 +34,8 @@ public interface Messaging {
     MessageOutbox ANALISAR_POS_PROPOSTA_MOTOR = new MessageOutbox("motor.analisar-pos-proposta-motor.message");
 
     String EXCHANGE = "proposta.exchange";
-    //    String EXCHANGE_MOTOR = "motor.exchange";
-//    String EXCHANGE_PROCESSADORA = "processadora.exchange";
+    String EXCHANGE_MOTOR = "motor.exchange";
+    String EXCHANGE_PROCESSADORA = "processadora.exchange";
     String EXCHANGE_EVENTS = "proposta.events.exchange";
     String EXCHANGE_EVENTS_MOTOR = "motor.events.exchange";
     String EXCHANGE_EVENTS_PROCESSADORA = "processadora.events.exchange";

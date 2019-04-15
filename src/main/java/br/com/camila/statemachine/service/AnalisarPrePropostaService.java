@@ -8,24 +8,27 @@ import org.springframework.stereotype.Service;
 import br.com.camila.statemachine.annotation.EventTemplate;
 import br.com.camila.statemachine.message.AnalisarPrePropostaMotorMessage;
 import br.com.camila.statemachine.messaging.Messaging;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @EnableRabbit
+@Slf4j
 public class AnalisarPrePropostaService {
 
     @Autowired
     @EventTemplate
     private RabbitTemplate eventTemplate;
 
-    public void executar() {
+    public void executar(Long numeroProposta, String cpf) {
 
-        //esse método vai enviar os dados de um cliente para ser analisado pelo motor;
+        AnalisarPrePropostaMotorMessage message = AnalisarPrePropostaMotorMessage.builder()
+            .cpf(cpf)
+            .numeroProposta(numeroProposta).build();
 
-        AnalisarPrePropostaMotorMessage message = AnalisarPrePropostaMotorMessage.builder().build();
-
+        log.info("Envia análise da proposta número {} para o motor.", numeroProposta);
         eventTemplate.convertAndSend(
-                Messaging.ANALISAR_PRE_PROPOSTA_MOTOR.getRoutingKey(),
                 Messaging.ANALISAR_PRE_PROPOSTA_MOTOR.getExchange(),
+                Messaging.ANALISAR_PRE_PROPOSTA_MOTOR.getRoutingKey(),
                 message);
     }
 }
