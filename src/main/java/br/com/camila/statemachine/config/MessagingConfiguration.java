@@ -23,29 +23,9 @@ public class MessagingConfiguration {
         return new TopicExchange(Messaging.EXCHANGE);
     }
 
-    @Bean
-    TopicExchange eventsExchange() {
-        return new TopicExchange(Messaging.EXCHANGE_EVENTS);
-    }
-
-    @Bean
-    TopicExchange eventsExchangeMotor() {
-        return new TopicExchange(Messaging.EXCHANGE_EVENTS_MOTOR);
-    }
-
-    @Bean
-    TopicExchange eventsExchangeProcessadora() {
-        return new TopicExchange(Messaging.EXCHANGE_PROCESSADORA);
-    }
-
     /**
      * Queues
      **/
-
-    @Bean
-    Queue gfeQueue() {
-        return new Queue(Messaging.QUEUE_GFE);
-    }
 
     @Bean
     Queue criarPropostaQueue() {
@@ -88,7 +68,7 @@ public class MessagingConfiguration {
     }
 
     @Bean
-    Queue porPropostaAnalisadaQueue() {
+    Queue posPropostaAnalisadaQueue() {
         return new Queue(Messaging.QUEUE_POS_PROPOSTA_ANALISADA);
     }
 
@@ -97,14 +77,7 @@ public class MessagingConfiguration {
      **/
 
     @Bean
-    Binding gfeQueueToEventsExchangeBinder() {
-        return BindingBuilder.bind(gfeQueue())
-            .to(eventsExchange())
-            .with(Messaging.GFE.getRoutingKey());
-    }
-
-    @Bean
-    Binding criarPropostsQueueToPropostaExchangeBinder() {
+    Binding criarPropostaQueueToPropostaExchangeBinder() {
         return BindingBuilder.bind(criarPropostaQueue())
             .to(propostaExchange())
             .with(Messaging.CRIAR_PROPOSTA.getRoutingKey());
@@ -118,9 +91,38 @@ public class MessagingConfiguration {
     }
 
     @Bean
+    Binding atualizarInfosPessoaisQueueToPropostaExchangeBinder() {
+        return BindingBuilder.bind(atualizarInfosPessoaisQueue())
+            .to(propostaExchange())
+            .with(Messaging.ATUALIZAR_INFOS_PESSOAIS.getRoutingKey());
+    }
+
+    @Bean
+    Binding atualizarEmailValidadoQueueToPropostaExchangeBinder() {
+        return BindingBuilder.bind(atualizarEmailValidadoQueue())
+            .to(propostaExchange())
+            .with(Messaging.ATUALIZAR_EMAIL_VALIDADO.getRoutingKey());
+    }
+
+    @Bean
+    Binding analisarPosPropostaQueueToPropostaExchangeBinder() {
+        return BindingBuilder.bind(analisarPosPropostaQueue())
+            .to(propostaExchange())
+            .with(Messaging.ANALISAR_POS_PROPOSTA.getRoutingKey());
+    }
+
+    @Bean
     Binding prePropostaAnalisadaQueueToPropostaExchangeBinder() {
         return BindingBuilder.bind(prePropostaAnalisadaQueue())
             .to(propostaExchange())
-            .with(Messaging.PRE_PROPOSTA_ANALISADA_MOTOR2.getRoutingKey());
+            .with(Messaging.PRE_PROPOSTA_ANALISADA_MOTOR.getRoutingKey());
     }
+
+    @Bean
+    Binding posPropostaAnalisadaQueueToPropostaExchangeBinder() {
+        return BindingBuilder.bind(posPropostaAnalisadaQueue())
+            .to(propostaExchange())
+            .with(Messaging.POS_PROPOSTA_ANALISADA_MOTOR.getRoutingKey());
+    }
+
 }
