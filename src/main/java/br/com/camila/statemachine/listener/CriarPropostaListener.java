@@ -53,14 +53,14 @@ public class CriarPropostaListener extends AbstractStateMachineContextBuilder<Es
             event.resultado(propostaDTO);
 
             log.info("Propagando evento: {}", event);
-            rabbitTemplate.convertAndSend(Messaging.PROPOSTA_CRIADA.getRoutingKey(), event.build());
+//            rabbitTemplate.convertAndSend(Messaging.PROPOSTA_CRIADA.getRoutingKey(), event.build());
 
         } catch (final Exception e) {
 
             event.erro(ErrorResponse.build(e));
 
             log.error("Propagando evento de erro: " + event);
-            rabbitTemplate.convertAndSend(Messaging.PROPOSTA_CRIADA_ERROR.getRoutingKey(), event.build());
+//            rabbitTemplate.convertAndSend(Messaging.PROPOSTA_CRIADA_ERROR.getRoutingKey(), event.build());
             throw e;
         }
     }

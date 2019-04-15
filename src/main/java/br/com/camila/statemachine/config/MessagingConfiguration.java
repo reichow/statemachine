@@ -28,6 +28,16 @@ public class MessagingConfiguration {
         return new TopicExchange(Messaging.EXCHANGE_EVENTS);
     }
 
+    @Bean
+    TopicExchange eventsExchangeMotor() {
+        return new TopicExchange(Messaging.EXCHANGE_EVENTS_MOTOR);
+    }
+
+    @Bean
+    TopicExchange eventsExchangeProcessadora() {
+        return new TopicExchange(Messaging.EXCHANGE_EVENTS_PROCESSADORA);
+    }
+
     /**
      * Queues
      **/
@@ -43,10 +53,44 @@ public class MessagingConfiguration {
     }
 
     @Bean
-    Queue analisarPropostaQueue() {
+    Queue analisarPrePropostaQueue() {
         return new Queue(Messaging.QUEUE_ANALISAR_PRE_PROPOSTA);
     }
 
+    @Bean
+    Queue atualizarInfosPessoaisQueue() {
+        return new Queue(Messaging.QUEUE_ATUALIZAR_INFOS_PESSOAIS);
+    }
+
+    @Bean
+    Queue atualizarEmailValidadoQueue() {
+        return new Queue(Messaging.QUEUE_ATUALIZAR_EMAIL_VALIDADO);
+    }
+
+    @Bean
+    Queue analisarPosPropostaQueue() {
+        return new Queue(Messaging.QUEUE_ANALISAR_POS_PROPOSTA);
+    }
+
+    @Bean
+    Queue prePropostaAnalisadaQueue() {
+        return new Queue(Messaging.QUEUE_PRE_PROPOSTA_ANALISADA);
+    }
+
+    @Bean
+    Queue infosPessoaisAtualizadasQueue() {
+        return new Queue(Messaging.QUEUE_INFOS_PESSOAIS_ATUALIZADAS);
+    }
+
+    @Bean
+    Queue emailValidadoAtualizadoQueue() {
+        return new Queue(Messaging.QUEUE_EMAIL_VALIDADO_ATUALIZADO);
+    }
+
+    @Bean
+    Queue porPropostaAnalisadaQueue() {
+        return new Queue(Messaging.QUEUE_POS_PROPOSTA_ANALISADA);
+    }
 
     /**
      * Bindings
@@ -67,8 +111,8 @@ public class MessagingConfiguration {
     }
 
     @Bean
-    Binding analisarPropostaQueueToPropostaExchangeBinder() {
-        return BindingBuilder.bind(analisarPropostaQueue())
+    Binding analisarPrePropostaQueueToPropostaExchangeBinder() {
+        return BindingBuilder.bind(analisarPrePropostaQueue())
             .to(propostaExchange())
             .with(Messaging.ANALISAR_PRE_PROPOSTA.getRoutingKey());
     }

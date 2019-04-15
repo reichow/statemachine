@@ -15,7 +15,7 @@ public interface Messaging {
     EventInbox ANALISE_PRE_PROPOSTA_MOTOR_ERROR = new EventInbox("motor.analise-pre-proposta.error.event");
     EventInbox INFOS_PESSOAIS_ATUALIZADAS_PROCESSADORA_EROOR = new EventInbox("processadora.infos-pessoais-atualizadas-processadora.error.event");
     EventInbox EMAIL_VALIDADO_ATUALIZADO_PROCESSADORA_ERROR = new EventInbox("processadora.email-validado-atualizado-processadora.error.event");
-    EventInbox ANALISE_POS_PROPOSTA_MOTOR_ERROR = new EventInbox("motor.analise-pre-proposta.error.event");
+    EventInbox ANALISE_POS_PROPOSTA_MOTOR_ERROR = new EventInbox("motor.analise-pos-proposta.error.event");
 
     // mensagens que são recebidas para essa aplicação
     MessageInbox CRIAR_PROPOSTA = new MessageInbox("proposta.criar-proposta.message");
@@ -32,7 +32,7 @@ public interface Messaging {
     MessageOutbox ANALISAR_POS_PROPOSTA_MOTOR = new MessageOutbox("motor.analisar-pos-proposta-motor.message");
 
     String EXCHANGE = "proposta.exchange";
-//    String EXCHANGE_MOTOR = "motor.exchange";
+    //    String EXCHANGE_MOTOR = "motor.exchange";
 //    String EXCHANGE_PROCESSADORA = "processadora.exchange";
     String EXCHANGE_EVENTS = "proposta.events.exchange";
     String EXCHANGE_EVENTS_MOTOR = "motor.events.exchange";

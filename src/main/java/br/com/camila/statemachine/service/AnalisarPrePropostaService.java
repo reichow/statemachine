@@ -23,6 +23,9 @@ public class AnalisarPrePropostaService {
 
         AnalisarPrePropostaMotorMessage message = AnalisarPrePropostaMotorMessage.builder().build();
 
-        eventTemplate.convertAndSend(Messaging.ANALISAR_PRE_PROPOSTA_MOTOR.getRoutingKey(), Messaging.ANALISAR_PRE_PROPOSTA_MOTOR.getExchange(), message);
+        eventTemplate.convertAndSend(
+                Messaging.ANALISAR_PRE_PROPOSTA_MOTOR.getRoutingKey(),
+                Messaging.ANALISAR_PRE_PROPOSTA_MOTOR.getExchange(),
+                message);
     }
 }
