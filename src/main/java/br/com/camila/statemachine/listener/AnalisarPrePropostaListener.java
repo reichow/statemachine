@@ -25,7 +25,7 @@ public class AnalisarPrePropostaListener {
         @Payload final AnalisarPrePropostaMessage message) {
 
         log.info("Mensagem: {}", message);
-
+        log.info("Enviando evento {} para StateMachine.", Eventos.ANALISAR);
         customStateMachineService.sendEvent(message.getNumeroProposta(), Eventos.ANALISAR);
     }
 }

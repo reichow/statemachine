@@ -25,6 +25,8 @@ public class EmailValidadoAtualizadoListener extends AbstractStateMachineContext
     @RabbitHandler
     void receive(@Payload final EmailValidadoAtualizadoMessage message) {
 
+        log.info("Mensagem: {}", message);
+
         // vai enviar um evento para dizer que as infos foram atualizadas;
 
     }

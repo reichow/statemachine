@@ -1,10 +1,8 @@
 package br.com.camila.statemachine.interceptor;
 
-import static br.com.camila.statemachine.messaging.Messaging.GFE;
 import static java.lang.String.format;
 import static java.time.OffsetDateTime.now;
 import static java.util.Optional.ofNullable;
-import static org.springframework.amqp.core.MessageBuilder.withBody;
 import static org.springframework.amqp.support.converter.DefaultClassMapper.DEFAULT_CLASSID_FIELD_NAME;
 
 import java.io.Serializable;
@@ -18,7 +16,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.aop.ThrowsAdvice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.sleuth.Span;
-import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -90,10 +87,6 @@ public class ListenerExceptionInterceptor implements ThrowsAdvice {
             .destination(obterDestination(message.getMessageProperties()))
             .error(obterError(th))
             .message(obterMessage(message));
-
-        rabbitTemplate.send(GFE.getRoutingKey(), withBody(objectMapper.writeValueAsBytes(mappedMessage.build()))
-            .setContentType(MediaType.APPLICATION_JSON_VALUE)
-            .build());
     }
 
     private Long obterTraceId(final MessageProperties messageProperties) {

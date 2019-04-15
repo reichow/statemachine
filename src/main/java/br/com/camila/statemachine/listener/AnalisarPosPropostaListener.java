@@ -21,11 +21,10 @@ public class AnalisarPosPropostaListener {
     private CustomStateMachineService customStateMachineService;
 
     @RabbitHandler
-    void receive(
-        @Payload final AnalisarPosPropostaMessage message) {
+    void receive(@Payload final AnalisarPosPropostaMessage message) {
 
         log.info("Mensagem: {}", message);
-
+        log.info("Enviando evento {} para StateMachine.", Eventos.ANALISAR);
         customStateMachineService.sendEvent(message.getNumeroProposta(), Eventos.ANALISAR);
     }
 }

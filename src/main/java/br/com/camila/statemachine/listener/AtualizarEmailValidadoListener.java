@@ -24,7 +24,8 @@ public class AtualizarEmailValidadoListener extends AbstractStateMachineContextB
 
     @RabbitHandler
     void receive(@Payload final InfosPessoaisAtualizadasMessage message) {
-
+        log.info("Mensagem: {}", message);
+        log.info("Enviando evento {} para StateMachine.", Eventos.ATUALIZAR);
         customStateMachineService.sendEvent(message.getNumeroProposta(), Eventos.ATUALIZAR);
     }
 }

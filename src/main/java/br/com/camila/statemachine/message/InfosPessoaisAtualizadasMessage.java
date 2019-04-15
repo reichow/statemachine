@@ -1,22 +1,21 @@
 package br.com.camila.statemachine.message;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import java.io.Serializable;
 
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class InfosPessoaisAtualizadasMessage  implements Serializable {
+@NoArgsConstructor
+public class InfosPessoaisAtualizadasMessage implements Serializable {
 
-    private static final long serialVersionUID = 693886396004667503L;
+    private static final long serialVersionUID = -2362599786344216399L;
 
-    private final Long numeroProposta;
+    private String cpf;
+
+    private Long numeroProposta;
 }

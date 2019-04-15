@@ -1,5 +1,6 @@
 package br.com.camila.statemachine.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import br.com.camila.statemachine.messaging.Messaging;
 
 @Service
 @EnableRabbit
+@Slf4j
 public class AnalisarPosPropostaService {
 
     @Autowired

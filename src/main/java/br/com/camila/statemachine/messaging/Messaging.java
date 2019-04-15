@@ -24,6 +24,10 @@ public interface Messaging {
     MessageOutbox ATUALIZAR_INFOS_PESSOAIS_PROCESSADORA = new MessageOutbox("processadora.atualizar-infos-pessoais-processadora.message");
     MessageOutbox ATUALIZAR_EMAIL_VALIDADO_PROCESSADORA = new MessageOutbox("processadora.atualizar-email-validado-processadora.message");
 
+    //msg recebida da api processadora
+    MessageInbox INFOS_PESSOAIS_ATUALIZADAS_PROCESSADORA = new MessageInbox("proposta.infos-pessoais-atualizadas.message");
+    MessageInbox EMAIL_VALIDADO_ATUALIZADO_PROCESSADORA = new MessageInbox("proposta.email-validado-atualizado.message");
+
     //exchanges
     String EXCHANGE = "proposta.exchange";
     String EXCHANGE_EVENTS = "proposta.events.exchange";

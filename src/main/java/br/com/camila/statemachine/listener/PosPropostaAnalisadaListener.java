@@ -25,11 +25,15 @@ public class PosPropostaAnalisadaListener extends AbstractStateMachineContextBui
     @RabbitHandler
     void receive(@Payload final PrePropostaAnalisadaMessage message) {
 
-        if (message.getEstado().equals(Estados.NEGADO_POS)) {
+        log.info("Mensagem: {}", message);
+
+        if (message.getEstado().equals(Estados.NEGADO_POS.toString())) {
+            log.info("Enviando evento {} para StateMachine.", Eventos.NEGAR);
             customStateMachineService.sendEvent(message.getNumeroProposta(), Eventos.NEGAR);
         }
 
-        if (message.getEstado().equals(Estados.APROVADO_POS)) {
+        if (message.getEstado().equals(Estados.APROVADO_POS.toString())) {
+            log.info("Enviando evento {} para StateMachine.", Eventos.APROVAR);
             customStateMachineService.sendEvent(message.getNumeroProposta(), Eventos.APROVAR);
         }
     }
