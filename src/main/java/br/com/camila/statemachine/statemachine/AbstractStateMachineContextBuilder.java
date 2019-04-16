@@ -20,7 +20,7 @@ import org.springframework.statemachine.support.DefaultStateMachineContext;
 public class AbstractStateMachineContextBuilder<Estados, Eventos> {
 
     protected StateMachineContext<Estados, Eventos> buildStateMachineContext(StateMachine<Estados, Eventos> stateMachine) {
-        Estados id = null;
+        Estados id;
 
         ExtendedState extendedState = new DefaultExtendedState();
         extendedState.getVariables().putAll(stateMachine.getExtendedState().getVariables());

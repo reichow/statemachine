@@ -13,10 +13,8 @@ import br.com.camila.statemachine.annotation.EventTemplate;
 import br.com.camila.statemachine.domain.Estados;
 import br.com.camila.statemachine.domain.Eventos;
 import br.com.camila.statemachine.entity.Proposta;
-import br.com.camila.statemachine.event.CriarPropostaEvent;
 import br.com.camila.statemachine.message.CriarPropostaMessage;
 import br.com.camila.statemachine.messaging.Messaging;
-import br.com.camila.statemachine.response.ErrorResponse;
 import br.com.camila.statemachine.response.PropostaDTO;
 import br.com.camila.statemachine.service.CriarPropostaService;
 import br.com.camila.statemachine.statemachine.AbstractStateMachineContextBuilder;
@@ -39,12 +37,12 @@ public class CriarPropostaListener extends AbstractStateMachineContextBuilder<Es
 
         log.info("Mensagem: {}", message);
 
-        final CriarPropostaEvent.CriarPropostaEventBuilder event = CriarPropostaEvent.builder().requisicao(message);
+//        final CriarPropostaEvent.CriarPropostaEventBuilder event = CriarPropostaEvent.builder().requisicao(message);
 
         try {
 
             log.info("Inicia persistência da proposta para o cpf: {}", message.getCpf());
-            Proposta proposta = criarPropostaService.executar(message.getCpf());
+            Proposta proposta = criarPropostaService.executar(message.getCpf(), message.getProposta());
             log.info("Finaliza persistência da proposta para o cpf: {}", message.getCpf());
 
             PropostaDTO propostaDTO = PropostaDTO.builder()
@@ -52,14 +50,14 @@ public class CriarPropostaListener extends AbstractStateMachineContextBuilder<Es
                 .numero(proposta.getNumero())
                 .cpf(proposta.getCpf()).build();
 
-            event.resultado(propostaDTO);
+//            event.resultado(propostaDTO);
 
 //            log.info("Propagando evento: {}", event);
 //            rabbitTemplate.convertAndSend(Messaging.PROPOSTA_CRIADA.getRoutingKey(), event.build());
 
         } catch (final Exception e) {
 
-            event.erro(ErrorResponse.build(e));
+//            event.erro(ErrorResponse.build(e));
 
 //            log.error("Propagando evento de erro: " + event);
 //            rabbitTemplate.convertAndSend(Messaging.PROPOSTA_CRIADA_ERROR.getRoutingKey(), event.build());

@@ -17,11 +17,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor
-public class AtualizarInfosPessoaisMessage implements Serializable {
+public class PosPropostaAnalisadaMessage  implements Serializable {
 
-    private static final long serialVersionUID = -1674398233840443453L;
+    private static final long serialVersionUID = 4333942110600898683L;
 
-    private String cpf;
+    private String estado;
 
     private Long numeroProposta;
 

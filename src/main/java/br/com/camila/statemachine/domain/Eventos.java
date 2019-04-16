@@ -6,5 +6,6 @@ public enum Eventos {
     ANALISAR,
     APROVAR,
     NEGAR,
-    ATUALIZAR
+    ATUALIZAR,
+    AGUARDAR
 }

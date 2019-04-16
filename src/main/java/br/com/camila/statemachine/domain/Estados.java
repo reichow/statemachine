@@ -11,5 +11,6 @@ public enum Estados {
     EMAIL_VALIDADO,
     ANALISE_POS,
     NEGADO_POS,
-    APROVADO_POS
+    APROVADO_POS,
+    PENDENTE_PRE
 }

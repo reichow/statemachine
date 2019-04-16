@@ -1,5 +1,7 @@
 package br.com.camila.statemachine.entity;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,8 +22,6 @@ import lombok.Setter;
 @Table(name = "AUDITORIA")
 public class Auditoria {
 
-//    private static final String SEQUENCE = "AUDITORIA_SEQ";
-
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "ID_AUDITORIA", nullable = false, precision = 10)
@@ -36,9 +36,9 @@ public class Auditoria {
     @Column(name = "CPF_CLIENTE")
     private String cpf;
 
-    @Column(name = "DATA_AUD")
-    private String data;
+    @Column(name = "DIA_HORA")
+    private Timestamp diaHora;
 
-    @Column(name = "DURACAO")
-    private String duracao;
+    @Column(name = "TIPO_PROPOSTA")
+    private String tipoProposta;
 }

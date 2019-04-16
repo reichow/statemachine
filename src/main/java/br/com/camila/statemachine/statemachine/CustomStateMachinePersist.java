@@ -27,10 +27,13 @@ public class CustomStateMachinePersist implements StateMachinePersist<Estados, E
     @Override
     public void write(StateMachineContext<Estados, Eventos> context, String id) throws Exception {
 
-        StateMachineEntity entity = stateMachineRepository.findByIdMaquina(id).orElse(StateMachineEntity.builder().idMaquina(id).build());
+        StateMachineEntity entity = stateMachineRepository.findByIdMaquina(id).orElse(StateMachineEntity.builder()
+            .idMaquina(id)
+            .build());
 
         entity.setEstado(context.getState().name());
         entity.setContexto(serialisationService.serialiseStateMachineContext(context));
+        entity.setTipoProposta(context.getId());
 
         stateMachineRepository.save(entity);
     }

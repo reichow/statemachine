@@ -6,26 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.config.EnableStateMachineFactory;
 import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
+import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 
-import br.com.camila.statemachine.domain.Eventos;
 import br.com.camila.statemachine.domain.Estados;
-import br.com.camila.statemachine.service.AnalisarPosPropostaService;
-import br.com.camila.statemachine.service.AnalisarPrePropostaService;
-import br.com.camila.statemachine.service.AtualizarEmailValidadoService;
-import br.com.camila.statemachine.service.AtualizarInfosPessoaisService;
-import br.com.camila.statemachine.service.AtualizarPropostaService;
+import br.com.camila.statemachine.domain.Eventos;
+import br.com.camila.statemachine.domain.TipoProposta;
+import br.com.camila.statemachine.service.captacaoccr.AnalisarPosPropostaService;
+import br.com.camila.statemachine.service.captacaoccr.AnalisarPrePropostaService;
+import br.com.camila.statemachine.service.captacaoccr.AtualizarEmailValidadoService;
+import br.com.camila.statemachine.service.captacaoccr.AtualizarInfosPessoaisService;
 
 @Configuration
 @EnableStateMachineFactory
-public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<Estados, Eventos> {
+public class CaptacaoCCRStateMachineConfig extends EnumStateMachineConfigurerAdapter<Estados, Eventos> {
 
     @Autowired
     private AnalisarPrePropostaService analisarPrePropostaService;
-
-    @Autowired
-    private AtualizarPropostaService atualizarPropostaService;
 
     @Autowired
     private AtualizarInfosPessoaisService atualizarInfosPessoaisService;
@@ -37,11 +35,19 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<Estado
     private AnalisarPosPropostaService analisarPosPropostaService;
 
     @Override
+    public void configure(StateMachineConfigurationConfigurer<Estados, Eventos> config) throws Exception {
+        config.withConfiguration()
+            .machineId(TipoProposta.CAPTACAO_CCR.name());
+    }
+
+    @Override
     public void configure(StateMachineStateConfigurer<Estados, Eventos> states) throws Exception {
 
         states
             .withStates()
             .initial(Estados.PROPOSTA_INEXISTENTE)
+            .end(Estados.NEGADO_PRE)
+            .end(Estados.NEGADO_POS)
             .states(EnumSet.allOf(Estados.class));
     }
 
@@ -84,6 +90,13 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<Estado
             .source(Estados.APROVADO_PRE)
             .target(Estados.INFOS_PESSOAIS)
             .event(Eventos.ATUALIZAR)
+            .action(
+                context -> {
+                    atualizarInfosPessoaisService.executar(
+                        context.getExtendedState().get("numeroProposta", Long.class),
+                        context.getExtendedState().get("cpf", String.class));
+                }
+            )
 
             .and()
             .withExternal()
@@ -92,7 +105,9 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<Estado
             .event(Eventos.ATUALIZAR)
             .action(
                 context -> {
-                    atualizarEmailValidadoService.executar();
+                    atualizarEmailValidadoService.executar(
+                        context.getExtendedState().get("numeroProposta", Long.class),
+                        context.getExtendedState().get("cpf", String.class));
                 }
             )
 
@@ -103,7 +118,9 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<Estado
             .event(Eventos.ANALISAR)
             .action(
                 context -> {
-                    analisarPosPropostaService.executar();
+                    analisarPosPropostaService.executar(
+                        context.getExtendedState().get("numeroProposta", Long.class),
+                        context.getExtendedState().get("cpf", String.class));
                 }
             )
 

@@ -1,6 +1,5 @@
 package br.com.camila.statemachine.repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.repository.Repository;
@@ -9,13 +8,7 @@ import br.com.camila.statemachine.entity.Proposta;
 
 public interface PropostaRepository extends Repository<Proposta, Long> {
 
-    List<Proposta> findAll();
-
-    Optional<Proposta> findById(Long id);
-
     Proposta save(Proposta proposta);
-
-//    Proposta findByProp1(String prop1);
 
     Optional<Proposta> findTopByOrderByNumeroDesc();
 

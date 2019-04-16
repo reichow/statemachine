@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import br.com.camila.statemachine.domain.Eventos;
-import br.com.camila.statemachine.message.InfosPessoaisAtualizadasMessage;
-import br.com.camila.statemachine.messaging.Messaging;
-import br.com.camila.statemachine.statemachine.AbstractStateMachineContextBuilder;
 import br.com.camila.statemachine.domain.Estados;
+import br.com.camila.statemachine.domain.Eventos;
+import br.com.camila.statemachine.message.AtualizarInfosPessoaisMessage;
+import br.com.camila.statemachine.messaging.Messaging;
 import br.com.camila.statemachine.service.CustomStateMachineService;
+import br.com.camila.statemachine.statemachine.AbstractStateMachineContextBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -23,9 +23,10 @@ public class AtualizarInfosPessoaisListener extends AbstractStateMachineContextB
     private CustomStateMachineService customStateMachineService;
 
     @RabbitHandler
-    void receive(@Payload final InfosPessoaisAtualizadasMessage message) {
+    void receive(@Payload final AtualizarInfosPessoaisMessage message) {
+
         log.info("Mensagem: {}", message);
         log.info("Enviando evento {} para StateMachine.", Eventos.ATUALIZAR);
-        customStateMachineService.sendEvent(message.getNumeroProposta(), Eventos.ATUALIZAR);
+        customStateMachineService.sendEvent(message.getNumeroProposta(), Eventos.ATUALIZAR, message.getProposta());
     }
 }

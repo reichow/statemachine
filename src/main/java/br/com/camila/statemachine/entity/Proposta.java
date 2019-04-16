@@ -39,5 +39,8 @@ public class Proposta {
 
     @Column(name = "CPF")
     private String cpf;
+
+    @Column(name = "TIPO_PROPOSTA")
+    private String tipoProposta;
 }
 

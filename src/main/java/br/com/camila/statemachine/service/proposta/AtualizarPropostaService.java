@@ -1,4 +1,4 @@
-package br.com.camila.statemachine.service;
+package br.com.camila.statemachine.service.proposta;
 
 import static java.util.Objects.nonNull;
 

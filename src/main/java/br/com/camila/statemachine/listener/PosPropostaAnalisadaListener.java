@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 
 import br.com.camila.statemachine.domain.Estados;
 import br.com.camila.statemachine.domain.Eventos;
-import br.com.camila.statemachine.message.PrePropostaAnalisadaMessage;
+import br.com.camila.statemachine.message.PosPropostaAnalisadaMessage;
 import br.com.camila.statemachine.messaging.Messaging;
-import br.com.camila.statemachine.statemachine.AbstractStateMachineContextBuilder;
 import br.com.camila.statemachine.service.CustomStateMachineService;
+import br.com.camila.statemachine.statemachine.AbstractStateMachineContextBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -23,18 +23,18 @@ public class PosPropostaAnalisadaListener extends AbstractStateMachineContextBui
     private CustomStateMachineService customStateMachineService;
 
     @RabbitHandler
-    void receive(@Payload final PrePropostaAnalisadaMessage message) {
+    void receive(@Payload final PosPropostaAnalisadaMessage message) {
 
         log.info("Mensagem: {}", message);
 
         if (message.getEstado().equals(Estados.NEGADO_POS.toString())) {
             log.info("Enviando evento {} para StateMachine.", Eventos.NEGAR);
-            customStateMachineService.sendEvent(message.getNumeroProposta(), Eventos.NEGAR);
+            customStateMachineService.sendEvent(message.getNumeroProposta(), Eventos.NEGAR, message.getProposta());
         }
 
         if (message.getEstado().equals(Estados.APROVADO_POS.toString())) {
             log.info("Enviando evento {} para StateMachine.", Eventos.APROVAR);
-            customStateMachineService.sendEvent(message.getNumeroProposta(), Eventos.APROVAR);
+            customStateMachineService.sendEvent(message.getNumeroProposta(), Eventos.APROVAR, message.getProposta());
         }
     }
 }

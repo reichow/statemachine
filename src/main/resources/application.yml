@@ -2,11 +2,14 @@ server:
   port: 9090
 
 spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
   application:
     name: proposta
-  autoconfigure:
-    exclude:
-    - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+#  autoconfigure:
+#    exclude:
+#    - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
   messages:
     basename: i18n/messages
   datasource:

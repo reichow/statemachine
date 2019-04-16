@@ -15,11 +15,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @EqualsAndHashCode
 @Getter
-@JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor
-public class AtualizarInfosPessoaisMessage implements Serializable {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class AnalisarPrePropostaMcMessage implements Serializable {
 
-    private static final long serialVersionUID = -1674398233840443453L;
+    private static final long serialVersionUID = -6658597343207715581L;
 
     private String cpf;
 

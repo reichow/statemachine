@@ -1,7 +1,5 @@
 package br.com.camila.statemachine.service;
 
-import static java.util.Objects.nonNull;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Service;
 import br.com.camila.statemachine.config.statemachine.TransitionConfig;
 import br.com.camila.statemachine.domain.Estados;
 import br.com.camila.statemachine.domain.Eventos;
+import br.com.camila.statemachine.domain.TipoProposta;
 import br.com.camila.statemachine.repository.StateMachineRepository;
 import br.com.camila.statemachine.statemachine.CustomStateMachineInterceptor;
 import br.com.camila.statemachine.statemachine.CustomStateMachinePersist;
@@ -35,45 +34,40 @@ public class CustomStateMachineService {
 
     private Map<String, StateMachine<Estados, Eventos>> cache = new ConcurrentHashMap<>();
 
-    public void start(final Long numeroProposta) {
-        final StateMachine<Estados, Eventos> stateMachine = getStateMachine(numeroProposta.toString());
+    public void start(final Long numeroProposta, final TipoProposta proposta) {
+        final StateMachine<Estados, Eventos> stateMachine = getStateMachine(numeroProposta.toString(), proposta);
         stateMachine.getExtendedState().getVariables().put("numeroProposta", numeroProposta);
         stateMachine.start();
     }
 
-    public String getState(final Long numeroProposta) {
-        final StateMachine<Estados, Eventos> stateMachine = getStateMachine(numeroProposta.toString());
+    public String getState(final Long numeroProposta, final TipoProposta proposta) {
+        final StateMachine<Estados, Eventos> stateMachine = getStateMachine(numeroProposta.toString(), proposta);
         return stateMachine.getState().getId().name();
     }
 
-    public void setVariable(final Long numeroProposta, final String name, final Object value) {
-        final StateMachine<Estados, Eventos> stateMachine = getStateMachine(numeroProposta.toString());
-        stateMachine.getExtendedState().getVariables().put(name, value);
-    }
-
-    public void setVariables(final Long numeroProposta, final Map<String, Object> variables) {
-        final StateMachine<Estados, Eventos> stateMachine = getStateMachine(numeroProposta.toString());
+    public void setVariables(final Long numeroProposta, final Map<String, Object> variables, final TipoProposta proposta) {
+        final StateMachine<Estados, Eventos> stateMachine = getStateMachine(numeroProposta.toString(), proposta);
         stateMachine.getExtendedState().getVariables().putAll(variables);
     }
 
-    public void sendEvent(final Long numeroProposta, final Eventos evento) {
+    public void sendEvent(final Long numeroProposta, final Eventos evento, final TipoProposta proposta) {
         final String id = numeroProposta.toString();
-        final StateMachine<Estados, Eventos> stateMachine = getStateMachine(id);
+        final StateMachine<Estados, Eventos> stateMachine = getStateMachine(id, proposta);
         stateMachine.sendEvent(evento);
     }
 
-    public StateMachine getStateMachine(final String id) {
+    public StateMachine getStateMachine(final String id, final TipoProposta proposta) {
         if (cache.containsKey(id)) {
             return cache.get(id);
         }
 
-        final StateMachine<Estados, Eventos> stateMachine = factory.getStateMachine();
+        final StateMachine<Estados, Eventos> stateMachine = factory.getStateMachine(proposta.name());
         stateMachine.getStateMachineAccessor().withRegion().addStateMachineInterceptor(interceptor);
         stateMachine.addStateListener(new TransitionConfig());
 
         cache.put(id, stateMachine);
 
-        if (nonNull(repository.findByIdMaquina(id))) {
+        if (repository.findByIdMaquina(id).isPresent()) {
             restoreStateMachine(stateMachine, id);
             stateMachine.start();
         }

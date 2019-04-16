@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.camila.statemachine.domain.Eventos;
 import br.com.camila.statemachine.domain.Estados;
-import br.com.camila.statemachine.service.AtualizarPropostaService;
+import br.com.camila.statemachine.service.proposta.AtualizarPropostaService;
 import br.com.camila.statemachine.service.SalvarAuditoriaService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +28,6 @@ public class CustomStateMachineInterceptor extends AbstractStateMachineContextBu
 
     @Autowired
     private SalvarAuditoriaService salvarAuditoriaService;
-
 
     @Override
     public Message<Eventos> preEvent(final Message<Eventos> message, final StateMachine<Estados, Eventos> stateMachine) {
@@ -58,7 +57,7 @@ public class CustomStateMachineInterceptor extends AbstractStateMachineContextBu
                 persist.write(buildStateMachineContext(stateMachine), numeroProposta.toString());
                 log.info("Finalizada persistência da SM com numero de proposta: {}", numeroProposta);
 
-                salvarAuditoriaService.executar(numeroProposta);
+                salvarAuditoriaService.executar(numeroProposta, stateMachine.getId());
 
             } catch (Exception e) {
                 throw new StateMachineException("Não foi possível persistir o contexto da SM.", e);
@@ -80,5 +79,4 @@ public class CustomStateMachineInterceptor extends AbstractStateMachineContextBu
     public Exception stateMachineError(StateMachine<Estados, Eventos> stateMachine, Exception exception) {
         return exception;
     }
-
 }

@@ -31,17 +31,20 @@ public class StateMachineEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name = "id", nullable = false, length = 10)
+    @Column(name = "ID", nullable = false, length = 10)
     private Long id;
 
-    @Column(name = "id_maquina")
+    @Column(name = "NUMERO_PROPOSTA")
     private String idMaquina;
 
-    @Column(name = "estado", nullable = false)
+    @Column(name = "ESTADO", nullable = false)
     private String estado;
 
     @Lob
-    @Column(name = "contexto", nullable = false)
+    @Column(name = "CONTEXTO", nullable = false)
     private byte[] contexto;
+
+    @Column(name = "TIPO_PROPOSTA")
+    private String tipoProposta;
 
 }
