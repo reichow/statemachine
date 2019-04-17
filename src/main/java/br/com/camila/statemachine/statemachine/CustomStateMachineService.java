@@ -1,4 +1,4 @@
-package br.com.camila.statemachine.service;
+package br.com.camila.statemachine.statemachine;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -6,7 +6,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.StateMachineContext;
-import org.springframework.statemachine.config.StateMachineFactory;
 import org.springframework.stereotype.Service;
 
 import br.com.camila.statemachine.config.statemachine.TransitionConfig;
@@ -14,14 +13,12 @@ import br.com.camila.statemachine.domain.Estados;
 import br.com.camila.statemachine.domain.Eventos;
 import br.com.camila.statemachine.domain.TipoProposta;
 import br.com.camila.statemachine.repository.StateMachineRepository;
-import br.com.camila.statemachine.statemachine.CustomStateMachineInterceptor;
-import br.com.camila.statemachine.statemachine.CustomStateMachinePersist;
 
 @Service
 public class CustomStateMachineService {
 
     @Autowired
-    private StateMachineFactory<Estados, Eventos> factory;
+    private BuscarStateMachineService buscarStateMachineService;
 
     @Autowired
     private StateMachineRepository repository;
@@ -57,11 +54,12 @@ public class CustomStateMachineService {
     }
 
     public StateMachine getStateMachine(final String id, final TipoProposta proposta) {
+
         if (cache.containsKey(id)) {
             return cache.get(id);
         }
 
-        final StateMachine<Estados, Eventos> stateMachine = factory.getStateMachine(proposta.name());
+        StateMachine<Estados, Eventos> stateMachine = buscarStateMachineService.executar(proposta);
         stateMachine.getStateMachineAccessor().withRegion().addStateMachineInterceptor(interceptor);
         stateMachine.addStateListener(new TransitionConfig());
 

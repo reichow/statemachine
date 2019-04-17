@@ -12,6 +12,7 @@ import br.com.camila.statemachine.domain.Eventos;
 import br.com.camila.statemachine.domain.TipoProposta;
 import br.com.camila.statemachine.entity.Auditoria;
 import br.com.camila.statemachine.repository.AuditoriaRepository;
+import br.com.camila.statemachine.statemachine.CustomStateMachineService;
 import lombok.extern.slf4j.Slf4j;
 
 @Service

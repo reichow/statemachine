@@ -42,7 +42,7 @@ public class CustomStateMachinePersist implements StateMachinePersist<Estados, E
     public StateMachineContext<Estados, Eventos> read(String id) throws Exception {
         StateMachineEntity entity = stateMachineRepository.findByIdMaquina(id).orElse(null);
 
-        if (entity != null) {
+        if (stateMachineRepository.findByIdMaquina(id).isPresent()) {
             return serialisationService.deserialiseStateMachineContext(entity.getContexto());
         }
 

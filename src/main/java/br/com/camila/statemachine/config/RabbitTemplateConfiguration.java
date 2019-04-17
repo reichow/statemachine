@@ -23,8 +23,6 @@ import br.com.camila.statemachine.interceptor.HeaderMessageInterceptor;
 import br.com.camila.statemachine.interceptor.TraceMessageInterceptor;
 import br.com.camila.statemachine.message.AnalisarPosPropostaMessage;
 import br.com.camila.statemachine.message.AnalisarPosPropostaMotorMessage;
-import br.com.camila.statemachine.message.AnalisarPrePropostaMcMessage;
-import br.com.camila.statemachine.message.AnalisarPrePropostaMcMotorMessage;
 import br.com.camila.statemachine.message.AnalisarPrePropostaMessage;
 import br.com.camila.statemachine.message.AnalisarPrePropostaMotorMessage;
 import br.com.camila.statemachine.message.AtualizarEmailValidadoMessage;
@@ -32,7 +30,6 @@ import br.com.camila.statemachine.message.AtualizarInfosPessoaisMessage;
 import br.com.camila.statemachine.message.CriarPropostaMessage;
 import br.com.camila.statemachine.message.PosPropostaAnalisadaMessage;
 import br.com.camila.statemachine.message.PrePropostaAnalisadaMessage;
-import br.com.camila.statemachine.message.PrePropostaMcAnalisadaMessage;
 import br.com.camila.statemachine.messaging.MessageOutbox;
 import br.com.camila.statemachine.messaging.Messaging;
 
@@ -74,10 +71,7 @@ public class RabbitTemplateConfiguration {
             AnalisarPosPropostaMessage.class,
             AnalisarPosPropostaMotorMessage.class,
             PosPropostaAnalisadaMessage.class,
-            TipoProposta.class,
-            AnalisarPrePropostaMcMessage.class,
-            PrePropostaMcAnalisadaMessage.class,
-            AnalisarPrePropostaMcMotorMessage.class)
+            TipoProposta.class)
             .forEach(clazz -> mapping.put(clazz.getSimpleName(), clazz));
 
         final DefaultClassMapper classMapper = new DefaultClassMapper();

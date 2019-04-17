@@ -16,8 +16,8 @@ import br.com.camila.statemachine.domain.TipoProposta;
 import br.com.camila.statemachine.service.captacaomc.AnalisarPrePropostaMcService;
 
 @Configuration
-@EnableStateMachineFactory
-public class CaptacaoMCStateMachineConfig extends EnumStateMachineConfigurerAdapter<Estados, Eventos> {
+@EnableStateMachineFactory(name = "CONTRATACAO_MC")
+public class ContratacaoMCStateMachineConfig extends EnumStateMachineConfigurerAdapter<Estados, Eventos> {
 
     @Autowired
     private AnalisarPrePropostaMcService analisarPrePropostaMcService;
@@ -25,7 +25,7 @@ public class CaptacaoMCStateMachineConfig extends EnumStateMachineConfigurerAdap
     @Override
     public void configure(StateMachineConfigurationConfigurer<Estados, Eventos> config) throws Exception {
         config.withConfiguration()
-            .machineId(TipoProposta.CAPTACAO_MC.name());
+            .machineId(TipoProposta.CONTRATACAO_MC.name());
     }
 
     @Override

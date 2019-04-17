@@ -19,8 +19,8 @@ import br.com.camila.statemachine.service.captacaoccr.AtualizarEmailValidadoServ
 import br.com.camila.statemachine.service.captacaoccr.AtualizarInfosPessoaisService;
 
 @Configuration
-@EnableStateMachineFactory
-public class CaptacaoCCRStateMachineConfig extends EnumStateMachineConfigurerAdapter<Estados, Eventos> {
+@EnableStateMachineFactory(name = "CONTRATACAO_CCR")
+public class ContratacaoCCRStateMachineConfig extends EnumStateMachineConfigurerAdapter<Estados, Eventos> {
 
     @Autowired
     private AnalisarPrePropostaService analisarPrePropostaService;
@@ -37,7 +37,7 @@ public class CaptacaoCCRStateMachineConfig extends EnumStateMachineConfigurerAda
     @Override
     public void configure(StateMachineConfigurationConfigurer<Estados, Eventos> config) throws Exception {
         config.withConfiguration()
-            .machineId(TipoProposta.CAPTACAO_CCR.name());
+            .machineId(TipoProposta.CONTRATACAO_CCR.name());
     }
 
     @Override

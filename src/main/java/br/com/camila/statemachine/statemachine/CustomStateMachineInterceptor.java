@@ -57,7 +57,10 @@ public class CustomStateMachineInterceptor extends AbstractStateMachineContextBu
                 persist.write(buildStateMachineContext(stateMachine), numeroProposta.toString());
                 log.info("Finalizada persistência da SM com numero de proposta: {}", numeroProposta);
 
-                salvarAuditoriaService.executar(numeroProposta, stateMachine.getId());
+                if (!stateMachine.getState().getId().equals(Estados.PROPOSTA_INEXISTENTE)) {
+                    salvarAuditoriaService.executar(numeroProposta, stateMachine.getId());
+                }
+
 
             } catch (Exception e) {
                 throw new StateMachineException("Não foi possível persistir o contexto da SM.", e);

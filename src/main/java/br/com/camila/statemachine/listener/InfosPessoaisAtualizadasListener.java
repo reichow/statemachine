@@ -11,7 +11,7 @@ import br.com.camila.statemachine.messaging.Messaging;
 import br.com.camila.statemachine.statemachine.AbstractStateMachineContextBuilder;
 import br.com.camila.statemachine.domain.Estados;
 import br.com.camila.statemachine.domain.Eventos;
-import br.com.camila.statemachine.service.CustomStateMachineService;
+import br.com.camila.statemachine.statemachine.CustomStateMachineService;
 import lombok.extern.slf4j.Slf4j;
 
 @Component

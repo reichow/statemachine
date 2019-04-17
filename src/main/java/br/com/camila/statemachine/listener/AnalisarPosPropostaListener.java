@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import br.com.camila.statemachine.domain.Eventos;
 import br.com.camila.statemachine.message.AnalisarPosPropostaMessage;
 import br.com.camila.statemachine.messaging.Messaging;
-import br.com.camila.statemachine.service.CustomStateMachineService;
+import br.com.camila.statemachine.statemachine.CustomStateMachineService;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -23,8 +23,11 @@ public class AnalisarPosPropostaListener {
     @RabbitHandler
     void receive(@Payload final AnalisarPosPropostaMessage message) {
 
+//        CustomStateMachineService customStateMachineService = new CustomStateMachineService(message.getProposta());
+
         log.info("Mensagem: {}", message);
         log.info("Enviando evento {} para StateMachine.", Eventos.ANALISAR);
+
         customStateMachineService.sendEvent(message.getNumeroProposta(), Eventos.ANALISAR, message.getProposta());
     }
 }

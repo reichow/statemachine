@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.camila.statemachine.annotation.EventTemplate;
+import br.com.camila.statemachine.domain.TipoProposta;
 import br.com.camila.statemachine.message.AnalisarPrePropostaMotorMessage;
 import br.com.camila.statemachine.messaging.Messaging;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,9 @@ public class AnalisarPrePropostaService {
 
         AnalisarPrePropostaMotorMessage message = AnalisarPrePropostaMotorMessage.builder()
             .cpf(cpf)
-            .numeroProposta(numeroProposta).build();
+            .numeroProposta(numeroProposta)
+            .proposta(TipoProposta.CONTRATACAO_CCR)
+            .build();
 
         log.info("Envia análise da proposta número {} para o motor.", numeroProposta);
         eventTemplate.convertAndSend(

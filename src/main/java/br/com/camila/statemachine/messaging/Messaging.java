@@ -8,14 +8,12 @@ public interface Messaging {
     //msg recebidas da aplicação externa
     MessageInbox CRIAR_PROPOSTA = new MessageInbox("proposta.criar-proposta.message");
     MessageInbox ANALISAR_PRE_PROPOSTA = new MessageInbox("proposta.analisar-pre-proposta.message");
-    MessageInbox ANALISAR_PRE_PROPOSTA_MC = new MessageInbox("proposta.analisar-pre-proposta-mc.message");
     MessageInbox ATUALIZAR_INFOS_PESSOAIS = new MessageInbox("proposta.atualizar-infos-pessoais.message");
     MessageInbox ATUALIZAR_EMAIL_VALIDADO = new MessageInbox("proposta.atualizar-email-validado.message");
     MessageInbox ANALISAR_POS_PROPOSTA = new MessageInbox("proposta.analisar-pos-proposta.message");
 
     //msg enviada para api de motor
     MessageOutbox ANALISAR_PRE_PROPOSTA_MOTOR = new MessageOutbox("motor.analisar-pre-proposta-motor.message");
-    MessageOutbox ANALISAR_PRE_PROPOSTA_MC_MOTOR = new MessageOutbox("motor.analisar-pre-proposta-mc-motor.message");
     MessageOutbox ANALISAR_POS_PROPOSTA_MOTOR = new MessageOutbox("motor.analisar-pos-proposta-motor.message");
 
     //msg recebida da api de motor
@@ -38,9 +36,7 @@ public interface Messaging {
     //filas
     String QUEUE_CRIAR_PROPOSTA = "proposta.criar-proposta.queue";
     String QUEUE_ANALISAR_PRE_PROPOSTA = "proposta.analisar-pre-proposta.queue";
-    String QUEUE_ANALISAR_PRE_PROPOSTA_MC = "proposta.analisar-pre-proposta-mc.queue";
     String QUEUE_PRE_PROPOSTA_ANALISADA = "proposta.analisar-pre-proposta.queue";
-    String QUEUE_PRE_PROPOSTA_MC_ANALISADA = "proposta.analisar-pre-proposta-mc.queue";
     String QUEUE_ATUALIZAR_INFOS_PESSOAIS = "proposta.atualizar-infos-pessoais.queue";
     String QUEUE_INFOS_PESSOAIS_ATUALIZADAS = "proposta.infos-pessoais-atualizadas.queue";
     String QUEUE_ATUALIZAR_EMAIL_VALIDADO = "proposta.atualizar-email-validado.queue";

@@ -10,6 +10,7 @@ import br.com.camila.statemachine.domain.Eventos;
 import br.com.camila.statemachine.domain.TipoProposta;
 import br.com.camila.statemachine.entity.Proposta;
 import br.com.camila.statemachine.repository.PropostaRepository;
+import br.com.camila.statemachine.statemachine.CustomStateMachineService;
 
 @Service
 public class CriarPropostaService {

@@ -1,13 +1,12 @@
 package br.com.camila.statemachine.service.captacaomc;
 
-import java.util.Random;
-
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.camila.statemachine.annotation.EventTemplate;
-import br.com.camila.statemachine.message.AnalisarPrePropostaMcMotorMessage;
+import br.com.camila.statemachine.domain.TipoProposta;
+import br.com.camila.statemachine.message.AnalisarPrePropostaMotorMessage;
 import br.com.camila.statemachine.messaging.Messaging;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,26 +20,15 @@ public class AnalisarPrePropostaMcService {
 
     public void executar(final Long numeroProposta, final String cpf) {
 
-        AnalisarPrePropostaMcMotorMessage message = AnalisarPrePropostaMcMotorMessage.builder()
+        AnalisarPrePropostaMotorMessage message = AnalisarPrePropostaMotorMessage.builder()
             .cpf(cpf)
-            .numeroProposta(numeroProposta).build();
+            .numeroProposta(numeroProposta)
+            .proposta(TipoProposta.CONTRATACAO_MC).build();
 
         log.info("Analisa pré proposta número {}, contratacao_mc.", numeroProposta);
         eventTemplate.convertAndSend(
-            Messaging.ANALISAR_PRE_PROPOSTA_MC_MOTOR.getExchange(),
-            Messaging.ANALISAR_PRE_PROPOSTA_MC_MOTOR.getRoutingKey(),
+            Messaging.ANALISAR_PRE_PROPOSTA_MOTOR.getExchange(),
+            Messaging.ANALISAR_PRE_PROPOSTA_MOTOR.getRoutingKey(),
             message);
-    }
-
-    private String definirEstado() {
-        Random random = new Random();
-        Estados estado = Estados.values()[random.nextInt(Estados.values().length)];
-        return estado.toString();
-    }
-
-    enum Estados {
-        APROVADO_PRE,
-        NEGADO_PRE,
-        PENDENTE_PRE
     }
 }
