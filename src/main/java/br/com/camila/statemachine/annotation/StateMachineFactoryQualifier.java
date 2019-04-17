@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import br.com.camila.statemachine.domain.TipoProposta;
 
-@Target({ElementType.FIELD, ElementType.METHOD, ElementType.TYPE, ElementType.PARAMETER})
+@Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Qualifier
 public @interface StateMachineFactoryQualifier {

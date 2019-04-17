@@ -60,6 +60,7 @@ public class CustomStateMachineService {
         }
 
         StateMachine<Estados, Eventos> stateMachine = buscarStateMachineService.executar(proposta);
+
         stateMachine.getStateMachineAccessor().withRegion().addStateMachineInterceptor(interceptor);
         stateMachine.addStateListener(new TransitionConfig());
 

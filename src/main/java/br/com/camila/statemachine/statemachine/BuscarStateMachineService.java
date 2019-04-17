@@ -1,5 +1,6 @@
 package br.com.camila.statemachine.statemachine;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,6 @@ public class BuscarStateMachineService {
 
     @Autowired
     private CustomStateMachineFactory factory;
-
 
     public StateMachine<Estados, Eventos> executar(final TipoProposta proposta) {
 
