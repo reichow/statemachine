@@ -2,7 +2,9 @@ package br.com.camila.statemachine.statemachine;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.statemachine.StateMachine;
+import org.springframework.statemachine.config.StateMachineFactory;
 import org.springframework.stereotype.Service;
 
 import br.com.camila.statemachine.domain.Estados;
@@ -13,16 +15,21 @@ import br.com.camila.statemachine.domain.TipoProposta;
 public class BuscarStateMachineService {
 
     @Autowired
-    private CustomStateMachineFactory factory;
+    @Qualifier("CONTRATACAO_CCR")
+    private StateMachineFactory<Estados, Eventos> contratacaoCCR;
+
+    @Autowired
+    @Qualifier("CONTRATACAO_MC")
+    private StateMachineFactory<Estados, Eventos> contratacaoMC;
 
     public StateMachine<Estados, Eventos> executar(final TipoProposta proposta) {
 
         if (proposta.name().equals(TipoProposta.CONTRATACAO_CCR.name())) {
-            return factory.contratacaoCCR.getStateMachine(proposta.name());
+            return contratacaoCCR.getStateMachine(proposta.name());
         }
 
         if (proposta.name().equals(TipoProposta.CONTRATACAO_MC.name())) {
-            return factory.contratacaoMC.getStateMachine(proposta.name());
+            return contratacaoMC.getStateMachine(proposta.name());
         }
 
         return null;
