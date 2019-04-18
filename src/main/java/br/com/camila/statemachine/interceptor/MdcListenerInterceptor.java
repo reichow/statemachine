@@ -1,6 +1,6 @@
 package br.com.camila.statemachine.interceptor;
 
-import br.com.camila.statemachine.annotation.RabbitEnabled;
+import br.com.camila.statemachine.anotation.RabbitEnabled;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

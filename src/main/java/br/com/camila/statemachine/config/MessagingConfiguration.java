@@ -7,7 +7,7 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import br.com.camila.statemachine.annotation.RabbitEnabled;
+import br.com.camila.statemachine.anotation.RabbitEnabled;
 import br.com.camila.statemachine.messaging.Messaging;
 
 @Configuration

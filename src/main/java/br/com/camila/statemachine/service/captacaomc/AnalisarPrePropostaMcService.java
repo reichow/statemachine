@@ -4,7 +4,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.camila.statemachine.annotation.EventTemplate;
+import br.com.camila.statemachine.anotation.EventTemplate;
 import br.com.camila.statemachine.domain.TipoProposta;
 import br.com.camila.statemachine.message.AnalisarPrePropostaMotorMessage;
 import br.com.camila.statemachine.messaging.Messaging;

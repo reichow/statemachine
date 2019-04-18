@@ -15,7 +15,7 @@ import org.springframework.cloud.sleuth.Span;
 import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.stereotype.Component;
 
-import br.com.camila.statemachine.annotation.RabbitEnabled;
+import br.com.camila.statemachine.anotation.RabbitEnabled;
 import lombok.AccessLevel;
 import lombok.Getter;
 

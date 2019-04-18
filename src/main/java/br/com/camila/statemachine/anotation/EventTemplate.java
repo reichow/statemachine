@@ -1,4 +1,4 @@
-package br.com.camila.statemachine.annotation;
+package br.com.camila.statemachine.anotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

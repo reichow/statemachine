@@ -16,8 +16,8 @@ import org.springframework.context.annotation.Configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.camila.statemachine.annotation.EventTemplate;
-import br.com.camila.statemachine.annotation.RabbitEnabled;
+import br.com.camila.statemachine.anotation.EventTemplate;
+import br.com.camila.statemachine.anotation.RabbitEnabled;
 import br.com.camila.statemachine.domain.TipoProposta;
 import br.com.camila.statemachine.interceptor.HeaderMessageInterceptor;
 import br.com.camila.statemachine.interceptor.TraceMessageInterceptor;

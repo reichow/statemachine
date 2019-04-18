@@ -12,7 +12,7 @@ import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.stereotype.Component;
 
-import br.com.camila.statemachine.annotation.RabbitEnabled;
+import br.com.camila.statemachine.anotation.RabbitEnabled;
 
 @Component
 @RabbitEnabled

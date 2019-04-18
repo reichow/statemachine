@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 import java.time.OffsetDateTime;
 import java.util.Base64;
 
-import br.com.camila.statemachine.annotation.EventTemplate;
+import br.com.camila.statemachine.anotation.EventTemplate;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.aop.ThrowsAdvice;
