@@ -27,7 +27,5 @@ public class InfosPessoaisAtualizadasListener extends AbstractStateMachineContex
 
         log.info("Mensagem: {}", message);
 
-        // vai enviar um evento para dizer que as infos foram atualizadas;
-
     }
 }

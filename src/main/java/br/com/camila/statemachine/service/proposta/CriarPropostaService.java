@@ -1,4 +1,4 @@
-package br.com.camila.statemachine.service;
+package br.com.camila.statemachine.service.proposta;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -23,8 +23,6 @@ public class AnalisarPosPropostaListener {
     @RabbitHandler
     void receive(@Payload final AnalisarPosPropostaMessage message) {
 
-//        CustomStateMachineService customStateMachineService = new CustomStateMachineService(message.getProposta());
-
         log.info("Mensagem: {}", message);
         log.info("Enviando evento {} para StateMachine.", Eventos.ANALISAR);
 

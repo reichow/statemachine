@@ -26,6 +26,7 @@ public class AtualizarEmailValidadoListener extends AbstractStateMachineContextB
     void receive(@Payload final AtualizarEmailValidadoMessage message) {
         log.info("Mensagem: {}", message);
         log.info("Enviando evento {} para StateMachine.", Eventos.ATUALIZAR);
+
         customStateMachineService.sendEvent(message.getNumeroProposta(), Eventos.ATUALIZAR, message.getProposta());
     }
 }

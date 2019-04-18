@@ -7,9 +7,6 @@ spring:
       ddl-auto: create
   application:
     name: proposta
-#  autoconfigure:
-#    exclude:
-#    - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
   messages:
     basename: i18n/messages
   datasource:

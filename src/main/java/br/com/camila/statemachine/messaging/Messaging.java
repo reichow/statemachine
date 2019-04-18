@@ -18,7 +18,6 @@ public interface Messaging {
 
     //msg recebida da api de motor
     MessageInbox PRE_PROPOSTA_ANALISADA_MOTOR = new MessageInbox("proposta.pre-proposta-analisada.message");
-    MessageInbox PRE_PROPOSTA_MC_ANALISADA_MOTOR = new MessageInbox("proposta.pre-proposta-analisada-mc.message");
     MessageInbox POS_PROPOSTA_ANALISADA_MOTOR = new MessageInbox("proposta.pos-proposta-analisada.message");
 
     //msg enviada para api processadora

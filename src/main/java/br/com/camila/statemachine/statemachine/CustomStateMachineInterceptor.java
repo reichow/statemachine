@@ -1,5 +1,7 @@
 package br.com.camila.statemachine.statemachine;
 
+import static java.util.Objects.nonNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.statemachine.StateContext;
@@ -13,7 +15,7 @@ import org.springframework.stereotype.Component;
 import br.com.camila.statemachine.domain.Eventos;
 import br.com.camila.statemachine.domain.Estados;
 import br.com.camila.statemachine.service.proposta.AtualizarPropostaService;
-import br.com.camila.statemachine.service.SalvarAuditoriaService;
+import br.com.camila.statemachine.service.auditoria.SalvarAuditoriaService;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -43,7 +45,7 @@ public class CustomStateMachineInterceptor extends AbstractStateMachineContextBu
     public void postStateChange(final State<Estados, Eventos> state, final Message<Eventos> message,
         final Transition<Estados, Eventos> transition, final StateMachine<Estados, Eventos> stateMachine) {
 
-        if (state != null && transition != null) {
+        if (nonNull(state) && nonNull(transition)) {
             try {
 
                 Long numeroProposta = stateMachine.getExtendedState().get("numeroProposta", Long.class);

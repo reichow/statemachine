@@ -1,4 +1,4 @@
-package br.com.camila.statemachine.service;
+package br.com.camila.statemachine.service.auditoria;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
