@@ -7,9 +7,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.config.EnableStateMachineFactory;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
+import org.springframework.statemachine.config.model.TransitionData;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 @Configuration
 @EnableStateMachineFactory(name = "TESTE")
@@ -20,32 +22,34 @@ public class TestSubMachineConfig extends RennerStateMachineAdapter {
     }
 
     @Override
-    public void configure(StateMachineStateConfigurer<Estados, Eventos> states) throws Exception {
-        states
-                .withStates()
-                .initial(Estados.P_CRIADA)
-                .states(new HashSet<>(Arrays.asList(Estados.EM_ANALISE, Estados.P_CRIADA, Estados.APROVADO, Estados.NEGADO)))
-                .end(Estados.APROVADO)
-                .end(Estados.NEGADO)
-                .and()
-                .withStates()
-                    .parent(Estados.EM_ANALISE)
-                    .initial(Estados.SUB_STATE_1)
-                    .states(new HashSet<>(Arrays.asList(Estados.SUB_STATE_1, Estados.SUB_STATE_2)));
+    Set<Estados> getSubMachineStates() {
+        return new HashSet<>(Arrays.asList(Estados.ANALISE_PRE, Estados.ANALISE_POS, Estados.APROVADO_PRE, Estados.APROVADO_POS));
     }
 
     @Override
-    public void configure(StateMachineTransitionConfigurer<Estados, Eventos> transitions) throws Exception {
-        transitions.withExternal()
-            .source(Estados.P_CRIADA).target(Estados.EM_ANALISE).event(Eventos.ANALISAR)
-            .and()
-            .withExternal()
-            .source(Estados.SUB_STATE_1).target(Estados.SUB_STATE_2).event(Eventos.ANALISAR)
-            .and()
-            .withExternal()
-            .source(Estados.SUB_STATE_2).target(Estados.APROVADO).event(Eventos.APROVAR)
-            .and()
-            .withExternal()
-            .source(Estados.SUB_STATE_2).target(Estados.APROVADO).event(Eventos.NEGAR);
+    Estados getInitialSubmachineState() {
+        return Estados.ANALISE_PRE;
     }
+
+    @Override
+    Set<Estados> getTransitionAprovado() {
+        return new HashSet<>(Arrays.asList(Estados.ANALISE_POS));
+    }
+
+    @Override
+    Set<Estados> getTransitionNegado() {
+        return new HashSet<>(Arrays.asList(Estados.ANALISE_POS,Estados.ANALISE_PRE));
+    }
+
+    @Override
+    public Set<RennerTransition<Estados, Eventos>> getTransitions(){
+        Set<RennerTransition<Estados, Eventos>> transitions = new HashSet<>();
+
+        transitions.add(new RennerTransition<>(Estados.ANALISE_PRE, Estados.APROVADO_PRE, Eventos.APROVAR));
+        transitions.add(new RennerTransition<>(Estados.APROVADO_PRE, Estados.ANALISE_POS, Eventos.ANALISAR));
+
+        return transitions;
+    }
+
+
 }

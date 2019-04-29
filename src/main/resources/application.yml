@@ -16,7 +16,7 @@ spring:
     basename: i18n/messages
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/sm?useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/sm?useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: root
   rabbitmq:
