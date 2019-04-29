@@ -49,7 +49,7 @@ public class CustomStateMachineInterceptor extends AbstractStateMachineContextBu
             try {
 
                 Long numeroProposta = stateMachine.getExtendedState().get("numeroProposta", Long.class);
-                Estados estado = stateMachine.getState().getId();
+                Object estado = stateMachine.getState().getId();
 
                 log.info("Iniciada atualização da proposta de número: {}", numeroProposta);
                 atualizarPropostaService.executar(numeroProposta, estado);

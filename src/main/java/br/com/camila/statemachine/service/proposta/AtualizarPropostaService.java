@@ -15,14 +15,14 @@ public class AtualizarPropostaService {
     @Autowired
     private PropostaRepository repository;
 
-    public void executar(final Long numeroProposta, final Estados id) {
+    public void executar(final Long numeroProposta, final String id) {
 
         Proposta proposta = repository
             .findByNumero(numeroProposta)
             .orElse(null);
 
         if (nonNull(proposta)) {
-            proposta.setEstado(id.name());
+            proposta.setEstado(id);
             repository.save(proposta);
         }
     }

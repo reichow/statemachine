@@ -39,7 +39,7 @@ public class CustomStateMachineService {
 
     public String getState(final Long numeroProposta, final TipoProposta proposta) {
         final StateMachine<Estados, Eventos> stateMachine = getStateMachine(numeroProposta.toString(), proposta);
-        return stateMachine.getState().getId().name();
+        return stateMachine.getState().getId().toString();
     }
 
     public void setVariables(final Long numeroProposta, final Map<String, Object> variables, final TipoProposta proposta) {

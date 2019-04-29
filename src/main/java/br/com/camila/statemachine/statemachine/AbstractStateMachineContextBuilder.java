@@ -17,7 +17,7 @@ import org.springframework.statemachine.support.AbstractStateMachine;
 import org.springframework.statemachine.support.DefaultExtendedState;
 import org.springframework.statemachine.support.DefaultStateMachineContext;
 
-public class AbstractStateMachineContextBuilder<Estados, Eventos> {
+public abstract class AbstractStateMachineContextBuilder<Estados, Eventos> {
 
     protected StateMachineContext<Estados, Eventos> buildStateMachineContext(StateMachine<Estados, Eventos> stateMachine) {
         Estados id;

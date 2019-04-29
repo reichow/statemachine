@@ -22,6 +22,10 @@ public class BuscarStateMachineService {
     @Qualifier("CONTRATACAO_MC")
     private StateMachineFactory<Estados, Eventos> contratacaoMC;
 
+    @Autowired
+    @Qualifier("TESTE")
+    private StateMachineFactory<Estados, Eventos> teste;
+
     public StateMachine<Estados, Eventos> executar(final TipoProposta proposta) {
 
         if (proposta.name().equals(TipoProposta.CONTRATACAO_CCR.name())) {
@@ -30,6 +34,10 @@ public class BuscarStateMachineService {
 
         if (proposta.name().equals(TipoProposta.CONTRATACAO_MC.name())) {
             return contratacaoMC.getStateMachine(proposta.name());
+        }
+
+        if (proposta.name().equals(Tipo.TESTE.name())) {
+            return teste.getStateMachine(proposta.name());
         }
 
         return null;

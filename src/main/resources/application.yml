@@ -1,19 +1,24 @@
 server:
   port: 9090
 
+logging:
+  level:
+    root: WARN
+    br.com.camila.statemachine: INFO
+
 spring:
   jpa:
     hibernate:
       ddl-auto: create
-  application:
+  application :
     name: proposta
   messages:
     basename: i18n/messages
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/sys
+    url: jdbc:mysql://127.0.0.1:3306/sm?useSSL=false
     username: root
-    password: mysql
+    password: root
   rabbitmq:
     enabled: ${RABBIT_ENABLED:true}
     listener:

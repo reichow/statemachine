@@ -31,6 +31,7 @@ public class CustomStateMachinePersist implements StateMachinePersist<Estados, E
             .idMaquina(id)
             .build());
 
+
         entity.setEstado(context.getState().name());
         entity.setContexto(serialisationService.serialiseStateMachineContext(context));
         entity.setTipoProposta(context.getId());

@@ -34,11 +34,13 @@ public class SalvarAuditoriaService {
         LocalDateTime now = LocalDateTime.now();
         Timestamp timestamp = Timestamp.valueOf(now);
 
+        String state = stateMachine.getState().isSubmachineState() ? stateMachine.getState().getIds().toString() : stateMachine.getState().getId().toString();
+
         Auditoria auditoria = Auditoria.builder()
             .cpf(stateMachine.getExtendedState().get("cpf", String.class))
             .diaHora(timestamp)
             .numeroProposta(stateMachine.getExtendedState().get("numeroProposta", Long.class))
-            .estado(stateMachine.getState().getId().name())
+            .estado(state)
             .tipoProposta(stateMachine.getId()).build();
 
         log.info("Inicia auditoria para: {} com número: {}",
@@ -48,7 +50,7 @@ public class SalvarAuditoriaService {
         repository.save(auditoria);
 
         log.info("Finaliza auditoria para: {} com número: {}",
-            stateMachine.getState().getId().name(),
+                state,
             stateMachine.getExtendedState().get("numeroProposta", Long.class));
     }
 }
