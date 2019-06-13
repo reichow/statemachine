@@ -1,7 +1,7 @@
 package br.com.camila.statemachine;
 
 import br.com.camila.statemachine.domain.Eventos;
-import br.com.camila.statemachine.domain.Tipo;
+import br.com.camila.statemachine.domain.TipoProposta;
 import br.com.camila.statemachine.statemachine.CustomStateMachineService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,11 +35,11 @@ public class StateMachineApplication implements CommandLineRunner {
 
 
 
-		StateMachine s = service.getStateMachine(proposta.toString(), Tipo.TESTE);
+		StateMachine s = service.getStateMachine(proposta.toString(), TipoProposta.TESTE);
 		printState(s);
-		service.start(proposta, Tipo.TESTE);
+		service.start(proposta, TipoProposta.TESTE);
 
-		service.getStateMachine(proposta.toString(), Tipo.TESTE);
+		service.getStateMachine(proposta.toString(), TipoProposta.TESTE);
 
 		sendEvent(Eventos.ANALISAR);
 
@@ -64,6 +64,6 @@ public class StateMachineApplication implements CommandLineRunner {
 	}
 
 	private void sendEvent(final Eventos event){
-		service.sendEvent(proposta, event, Tipo.TESTE);
+		service.sendEvent(proposta, event, TipoProposta.TESTE);
 	}
 }

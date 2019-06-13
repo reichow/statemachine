@@ -1,6 +1,5 @@
 package br.com.camila.statemachine.statemachine;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.statemachine.StateMachine;
@@ -36,7 +35,7 @@ public class BuscarStateMachineService {
             return contratacaoMC.getStateMachine(proposta.name());
         }
 
-        if (proposta.name().equals(Tipo.TESTE.name())) {
+        if (proposta.name().equals(TipoProposta.TESTE.name())) {
             return teste.getStateMachine(proposta.name());
         }
 

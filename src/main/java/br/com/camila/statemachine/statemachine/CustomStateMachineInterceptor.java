@@ -52,7 +52,7 @@ public class CustomStateMachineInterceptor extends AbstractStateMachineContextBu
                 Object estado = stateMachine.getState().getId();
 
                 log.info("Iniciada atualização da proposta de número: {}", numeroProposta);
-                atualizarPropostaService.executar(numeroProposta, estado);
+                atualizarPropostaService.executar(numeroProposta, estado.toString());
                 log.info("Finalizada atualização da proposta de número: {}", numeroProposta);
 
                 log.info("Iniciada persistência da SM com numero de proposta: {}", numeroProposta);

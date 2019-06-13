@@ -2,12 +2,9 @@ package br.com.camila.statemachine.config.statemachine;
 
 import br.com.camila.statemachine.domain.Estados;
 import br.com.camila.statemachine.domain.Eventos;
-import br.com.camila.statemachine.domain.Tipo;
+import br.com.camila.statemachine.domain.TipoProposta;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.config.EnableStateMachineFactory;
-import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
-import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
-import org.springframework.statemachine.config.model.TransitionData;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -15,10 +12,11 @@ import java.util.Set;
 
 @Configuration
 @EnableStateMachineFactory(name = "TESTE")
+//uma politica state machine
 public class TestSubMachineConfig extends RennerStateMachineAdapter {
 
     TestSubMachineConfig(){
-        super(Tipo.TESTE);
+        super(TipoProposta.TESTE);
     }
 
     @Override
@@ -52,4 +50,5 @@ public class TestSubMachineConfig extends RennerStateMachineAdapter {
     }
 
 
+    //metodos para retornar guards
 }

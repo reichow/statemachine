@@ -11,14 +11,14 @@ import org.springframework.statemachine.config.builders.StateMachineTransitionCo
 
 import br.com.camila.statemachine.domain.Estados;
 import br.com.camila.statemachine.domain.Eventos;
-import br.com.camila.statemachine.domain.Tipo;
+import br.com.camila.statemachine.domain.TipoProposta;
 import lombok.SneakyThrows;
 
 public abstract class RennerStateMachineAdapter extends StateMachineConfigurerAdapter<Estados, Eventos> {
 
-    private final Tipo tipo;
+    private final TipoProposta tipo;
 
-    RennerStateMachineAdapter(Tipo tipo){
+    RennerStateMachineAdapter(TipoProposta tipo){
         this.tipo = tipo;
     }
 
@@ -32,8 +32,8 @@ public abstract class RennerStateMachineAdapter extends StateMachineConfigurerAd
     public void configure(StateMachineStateConfigurer<Estados, Eventos> states) throws Exception {
         states
             .withStates()
-            .initial(Estados.P_CRIADA)
-            .states(new HashSet<>(Arrays.asList(Estados.EM_ANALISE, Estados.P_CRIADA, Estados.APROVADO, Estados.NEGADO)))
+            .initial(Estados.PROPOSTA_CRIADA)
+            .states(new HashSet<>(Arrays.asList(Estados.EM_ANALISE, Estados.PROPOSTA_CRIADA, Estados.APROVADO, Estados.NEGADO)))
             .end(Estados.APROVADO)
             .end(Estados.NEGADO)
             .and()
@@ -46,7 +46,7 @@ public abstract class RennerStateMachineAdapter extends StateMachineConfigurerAd
     @Override
     public void configure(StateMachineTransitionConfigurer<Estados, Eventos> transitions) throws Exception {
         transitions.withExternal()
-            .source(Estados.P_CRIADA).target(Estados.EM_ANALISE).event(Eventos.ANALISAR);
+            .source(Estados.PROPOSTA_CRIADA).target(Estados.EM_ANALISE).event(Eventos.ANALISAR);
 
         getTransitions().stream().forEach((t)->buildTransition(t, transitions));
 
